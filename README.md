@@ -1,0 +1,2 @@
+# smartR
+Modified R functions
