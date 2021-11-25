@@ -267,6 +267,30 @@ bin_cont_var = function(VAR,NUM_GROUPS,
 	out_VAR
 }
 
+#' @title smart_names
+#' @param MAT A matrix
+#' @param ROW A vector of length equal to \code{nrow(MAT)}
+#' @param COL A vector of length equal to \code{ncol(MAT)}
+#' @export
+smart_names = function(MAT,ROW = NULL,COL = NULL){
+	colnames(MAT) = seq(ncol(MAT))
+	rownames(MAT) = seq(nrow(MAT))
+	
+	if( !is.null(ROW) ){
+		if( nrow(MAT) != length(ROW) ){
+			stop("Issue with row name lengths and MAT dimension!")
+		}
+		rownames(MAT) = ROW
+	}
+	if( !is.null(COL) ){
+		if( ncol(MAT) != length(COL) ){
+			stop("Issue with column name lengths and MAT dimension!")
+		}
+		colnames(MAT) = COL
+	}
+	
+	MAT
+}
 
 
 #' @importFrom RCurl getURLContent
