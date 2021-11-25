@@ -25,17 +25,17 @@ namespace smartr {
         }
     }
 
-    inline double _logSumExp(const arma::vec& log_x) {
-        typedef SEXP(*Ptr__logSumExp)(SEXP);
-        static Ptr__logSumExp p__logSumExp = NULL;
-        if (p__logSumExp == NULL) {
-            validateSignature("double(*_logSumExp)(const arma::vec&)");
-            p__logSumExp = (Ptr__logSumExp)R_GetCCallable("smartr", "_smartr__logSumExp");
+    inline double Rcpp_logSumExp(const arma::vec& log_x) {
+        typedef SEXP(*Ptr_Rcpp_logSumExp)(SEXP);
+        static Ptr_Rcpp_logSumExp p_Rcpp_logSumExp = NULL;
+        if (p_Rcpp_logSumExp == NULL) {
+            validateSignature("double(*Rcpp_logSumExp)(const arma::vec&)");
+            p_Rcpp_logSumExp = (Ptr_Rcpp_logSumExp)R_GetCCallable("smartr", "_smartr_Rcpp_logSumExp");
         }
         RObject rcpp_result_gen;
         {
             RNGScope RCPP_rngScope_gen;
-            rcpp_result_gen = p__logSumExp(Shield<SEXP>(Rcpp::wrap(log_x)));
+            rcpp_result_gen = p_Rcpp_logSumExp(Shield<SEXP>(Rcpp::wrap(log_x)));
         }
         if (rcpp_result_gen.inherits("interrupted-error"))
             throw Rcpp::internal::InterruptedException();

@@ -7,7 +7,7 @@ Description: A collection of modified R functions
 				to aid in file manipulation, data exploration, and object manipulation.
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.2
 Imports: BiocManager, devtools, RCurl, Rcpp, gplots,
 				grDevices, stats
 LinkingTo: Rcpp, RcppArmadillo

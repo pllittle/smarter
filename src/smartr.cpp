@@ -9,7 +9,7 @@
 
 // [[Rcpp::interfaces(r,cpp)]]
 
-// [[Rcpp::export]]
+// [[Rcpp::export(Rcpp_logSumExp)]]
 double Rcpp_logSumExp(const arma::vec& log_x){
 	if( log_x.n_elem == 1 ){
 		return log_x.at(0);

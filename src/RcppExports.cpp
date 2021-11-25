@@ -53,14 +53,14 @@ RcppExport SEXP _smartr_Rcpp_logSumExp(SEXP log_xSEXP) {
 static int _smartr_RcppExport_validate(const char* sig) { 
     static std::set<std::string> signatures;
     if (signatures.empty()) {
-        signatures.insert("double(*.logSumExp)(const arma::vec&)");
+        signatures.insert("double(*Rcpp_logSumExp)(const arma::vec&)");
     }
     return signatures.find(sig) != signatures.end();
 }
 
 // registerCCallable (register entry points for exported C++ functions)
 RcppExport SEXP _smartr_RcppExport_registerCCallable() { 
-    R_RegisterCCallable("smartr", "_smartr_.logSumExp", (DL_FUNC)_smartr_Rcpp_logSumExp_try);
+    R_RegisterCCallable("smartr", "_smartr_Rcpp_logSumExp", (DL_FUNC)_smartr_Rcpp_logSumExp_try);
     R_RegisterCCallable("smartr", "_smartr_RcppExport_validate", (DL_FUNC)_smartr_RcppExport_validate);
     return R_NilValue;
 }
