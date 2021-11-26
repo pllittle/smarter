@@ -21,6 +21,7 @@ smart_pack_versions = function(pack,repo = "CRAN"){
 		aa0 = getURLContent(pack_html)
 		aa = strsplit(aa0,"\n")[[1]]
 		aa = aa[grepl(".tar.gz",aa)]
+		if( length(aa) == 0 ) return(NULL)
 		aa = strsplit(aa," ")[[1]]
 		aa = aa[grepl(pack,aa)]
 		aa = aa[!grepl("href=",aa)]
