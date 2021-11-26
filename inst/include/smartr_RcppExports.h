@@ -46,6 +46,26 @@ namespace smartr {
         return Rcpp::as<double >(rcpp_result_gen);
     }
 
+    inline void Rcpp_round(arma::vec& vv, const arma::uword& digits) {
+        typedef SEXP(*Ptr_Rcpp_round)(SEXP,SEXP);
+        static Ptr_Rcpp_round p_Rcpp_round = NULL;
+        if (p_Rcpp_round == NULL) {
+            validateSignature("void(*Rcpp_round)(arma::vec&,const arma::uword&)");
+            p_Rcpp_round = (Ptr_Rcpp_round)R_GetCCallable("smartr", "_smartr_Rcpp_round");
+        }
+        RObject rcpp_result_gen;
+        {
+            RNGScope RCPP_rngScope_gen;
+            rcpp_result_gen = p_Rcpp_round(Shield<SEXP>(Rcpp::wrap(vv)), Shield<SEXP>(Rcpp::wrap(digits)));
+        }
+        if (rcpp_result_gen.inherits("interrupted-error"))
+            throw Rcpp::internal::InterruptedException();
+        if (Rcpp::internal::isLongjumpSentinel(rcpp_result_gen))
+            throw Rcpp::LongjumpException(rcpp_result_gen);
+        if (rcpp_result_gen.inherits("try-error"))
+            throw Rcpp::exception(Rcpp::as<std::string>(rcpp_result_gen).c_str());
+    }
+
 }
 
 #endif // RCPP_smartr_RCPPEXPORTS_H_GEN_

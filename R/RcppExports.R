@@ -5,6 +5,10 @@ Rcpp_logSumExp <- function(log_x) {
     .Call('_smartr_Rcpp_logSumExp', PACKAGE = 'smartr', log_x)
 }
 
+Rcpp_round <- function(vv, digits) {
+    invisible(.Call('_smartr_Rcpp_round', PACKAGE = 'smartr', vv, digits))
+}
+
 # Register entry points for exported C++ functions
 methods::setLoadAction(function(ns) {
     .Call('_smartr_RcppExport_registerCCallable', PACKAGE = 'smartr')
