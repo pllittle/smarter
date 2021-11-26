@@ -1,6 +1,9 @@
 // [[Rcpp::depends(RcppArmadillo)]]
-
 #include <RcppArmadillo.h>
+
+#ifdef _OPENMP
+#include <omp.h>
+#endif
 
 // --------------------
 // smartr Functions
@@ -32,20 +35,32 @@ void Rcpp_chk_threads(const arma::uword& NN,
 	arma::uvec vec_threads = arma::zeros<arma::uvec>(NN);
 	
 	vec_threads.zeros();
-	omp_set_num_threads(ncores);
+	#ifdef _OPENMP
 	# pragma omp parallel for schedule(static) \
+		num_threads(ncores) \
 		shared(NN,vec_threads)
+	#endif
 	for(arma::uword ii = 0; ii < NN; ii++){
+		#ifdef _OPENMP
 		vec_threads.at(ii) = omp_get_thread_num();
+		#else
+		vec_threads.at(ii) = 0;
+		#endif
 	}
 	vec_threads.t().print("Static: vec_threads = ");
 	
 	vec_threads.zeros();
-	omp_set_num_threads(ncores);
+	#ifdef _OPENMP
 	# pragma omp parallel for schedule(dynamic) \
+		num_threads(ncores) \
 		shared(NN,vec_threads)
+	#endif
 	for(arma::uword ii = 0; ii < NN; ii++){
+		#ifdef _OPENMP
 		vec_threads.at(ii) = omp_get_thread_num();
+		#else
+		vec_threads.at(ii) = 0;
+		#endif
 	}
 	vec_threads.t().print("Dynamic: vec_threads = ");
 	
