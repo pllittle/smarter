@@ -25,6 +25,15 @@ smart_solve = function(mm){
 	
 }
 
+#' @title chk_threads
+#' @param NN A positive integer for total iterations
+#'	to loop over
+#' @param ncores A positive integer for number of threads
+#' @export
+chk_threads = function(NN,ncores){
+	Rcpp_chk_threads(NN = NN,ncores = ncores)
+}
+
 
 ###
 

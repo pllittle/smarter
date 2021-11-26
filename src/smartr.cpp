@@ -25,4 +25,28 @@ void Rcpp_round(arma::vec& vv,const arma::uword& digits){
 	vv = arma::round(vv * scale) / scale;
 }
 
-
+// [[Rcpp::export(Rcpp_chk_threads)]]
+void Rcpp_chk_threads(const arma::uword& NN,
+	const int& ncores = 1){
+	
+	arma::uvec vec_threads = arma::zeros<arma::uvec>(NN);
+	
+	vec_threads.zeros();
+	omp_set_num_threads(ncores);
+	# pragma omp parallel for schedule(static) \
+		shared(NN,vec_threads)
+	for(arma::uword ii = 0; ii < NN; ii++){
+		vec_threads.at(ii) = omp_get_thread_num();
+	}
+	vec_threads.t().print("Static: vec_threads = ");
+	
+	vec_threads.zeros();
+	omp_set_num_threads(ncores);
+	# pragma omp parallel for schedule(dynamic) \
+		shared(NN,vec_threads)
+	for(arma::uword ii = 0; ii < NN; ii++){
+		vec_threads.at(ii) = omp_get_thread_num();
+	}
+	vec_threads.t().print("Dynamic: vec_threads = ");
+	
+}

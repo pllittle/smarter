@@ -9,6 +9,10 @@ Rcpp_round <- function(vv, digits) {
     invisible(.Call('_smartr_Rcpp_round', PACKAGE = 'smartr', vv, digits))
 }
 
+Rcpp_chk_threads <- function(NN, ncores = 1L) {
+    invisible(.Call('_smartr_Rcpp_chk_threads', PACKAGE = 'smartr', NN, ncores))
+}
+
 # Register entry points for exported C++ functions
 methods::setLoadAction(function(ns) {
     .Call('_smartr_RcppExport_registerCCallable', PACKAGE = 'smartr')

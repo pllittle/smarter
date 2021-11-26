@@ -82,6 +82,40 @@ RcppExport SEXP _smartr_Rcpp_round(SEXP vvSEXP, SEXP digitsSEXP) {
     UNPROTECT(1);
     return rcpp_result_gen;
 }
+// Rcpp_chk_threads
+void Rcpp_chk_threads(const arma::uword& NN, const int& ncores);
+static SEXP _smartr_Rcpp_chk_threads_try(SEXP NNSEXP, SEXP ncoresSEXP) {
+BEGIN_RCPP
+    Rcpp::traits::input_parameter< const arma::uword& >::type NN(NNSEXP);
+    Rcpp::traits::input_parameter< const int& >::type ncores(ncoresSEXP);
+    Rcpp_chk_threads(NN, ncores);
+    return R_NilValue;
+END_RCPP_RETURN_ERROR
+}
+RcppExport SEXP _smartr_Rcpp_chk_threads(SEXP NNSEXP, SEXP ncoresSEXP) {
+    SEXP rcpp_result_gen;
+    {
+        Rcpp::RNGScope rcpp_rngScope_gen;
+        rcpp_result_gen = PROTECT(_smartr_Rcpp_chk_threads_try(NNSEXP, ncoresSEXP));
+    }
+    Rboolean rcpp_isInterrupt_gen = Rf_inherits(rcpp_result_gen, "interrupted-error");
+    if (rcpp_isInterrupt_gen) {
+        UNPROTECT(1);
+        Rf_onintr();
+    }
+    bool rcpp_isLongjump_gen = Rcpp::internal::isLongjumpSentinel(rcpp_result_gen);
+    if (rcpp_isLongjump_gen) {
+        Rcpp::internal::resumeJump(rcpp_result_gen);
+    }
+    Rboolean rcpp_isError_gen = Rf_inherits(rcpp_result_gen, "try-error");
+    if (rcpp_isError_gen) {
+        SEXP rcpp_msgSEXP_gen = Rf_asChar(rcpp_result_gen);
+        UNPROTECT(1);
+        Rf_error(CHAR(rcpp_msgSEXP_gen));
+    }
+    UNPROTECT(1);
+    return rcpp_result_gen;
+}
 
 // validate (ensure exported C++ functions exist before calling them)
 static int _smartr_RcppExport_validate(const char* sig) { 
@@ -89,6 +123,7 @@ static int _smartr_RcppExport_validate(const char* sig) {
     if (signatures.empty()) {
         signatures.insert("double(*Rcpp_logSumExp)(const arma::vec&)");
         signatures.insert("void(*Rcpp_round)(arma::vec&,const arma::uword&)");
+        signatures.insert("void(*Rcpp_chk_threads)(const arma::uword&,const int&)");
     }
     return signatures.find(sig) != signatures.end();
 }
@@ -97,6 +132,7 @@ static int _smartr_RcppExport_validate(const char* sig) {
 RcppExport SEXP _smartr_RcppExport_registerCCallable() { 
     R_RegisterCCallable("smartr", "_smartr_Rcpp_logSumExp", (DL_FUNC)_smartr_Rcpp_logSumExp_try);
     R_RegisterCCallable("smartr", "_smartr_Rcpp_round", (DL_FUNC)_smartr_Rcpp_round_try);
+    R_RegisterCCallable("smartr", "_smartr_Rcpp_chk_threads", (DL_FUNC)_smartr_Rcpp_chk_threads_try);
     R_RegisterCCallable("smartr", "_smartr_RcppExport_validate", (DL_FUNC)_smartr_RcppExport_validate);
     return R_NilValue;
 }
@@ -104,6 +140,7 @@ RcppExport SEXP _smartr_RcppExport_registerCCallable() {
 static const R_CallMethodDef CallEntries[] = {
     {"_smartr_Rcpp_logSumExp", (DL_FUNC) &_smartr_Rcpp_logSumExp, 1},
     {"_smartr_Rcpp_round", (DL_FUNC) &_smartr_Rcpp_round, 2},
+    {"_smartr_Rcpp_chk_threads", (DL_FUNC) &_smartr_Rcpp_chk_threads, 2},
     {"_smartr_RcppExport_registerCCallable", (DL_FUNC) &_smartr_RcppExport_registerCCallable, 0},
     {NULL, NULL, 0}
 };

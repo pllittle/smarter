@@ -66,6 +66,26 @@ namespace smartr {
             throw Rcpp::exception(Rcpp::as<std::string>(rcpp_result_gen).c_str());
     }
 
+    inline void Rcpp_chk_threads(const arma::uword& NN, const int& ncores = 1) {
+        typedef SEXP(*Ptr_Rcpp_chk_threads)(SEXP,SEXP);
+        static Ptr_Rcpp_chk_threads p_Rcpp_chk_threads = NULL;
+        if (p_Rcpp_chk_threads == NULL) {
+            validateSignature("void(*Rcpp_chk_threads)(const arma::uword&,const int&)");
+            p_Rcpp_chk_threads = (Ptr_Rcpp_chk_threads)R_GetCCallable("smartr", "_smartr_Rcpp_chk_threads");
+        }
+        RObject rcpp_result_gen;
+        {
+            RNGScope RCPP_rngScope_gen;
+            rcpp_result_gen = p_Rcpp_chk_threads(Shield<SEXP>(Rcpp::wrap(NN)), Shield<SEXP>(Rcpp::wrap(ncores)));
+        }
+        if (rcpp_result_gen.inherits("interrupted-error"))
+            throw Rcpp::internal::InterruptedException();
+        if (Rcpp::internal::isLongjumpSentinel(rcpp_result_gen))
+            throw Rcpp::LongjumpException(rcpp_result_gen);
+        if (rcpp_result_gen.inherits("try-error"))
+            throw Rcpp::exception(Rcpp::as<std::string>(rcpp_result_gen).c_str());
+    }
+
 }
 
 #endif // RCPP_smartr_RCPPEXPORTS_H_GEN_
