@@ -300,7 +300,7 @@ smart_names = function(MAT,ROW = NULL,COL = NULL){
 #' @importFrom grDevices hcl rgb
 #' @importFrom graphics abline axis barplot boxplot
 #'	hist lines mtext par text
-#' @importFrom stats cor density var quantile
+#' @importFrom stats cor density var quantile qnorm
 #' @importFrom gplots colorpanel
 #' @importFrom Rcpp sourceCpp
 #' @useDynLib smartr
