@@ -4,16 +4,19 @@ A R package with modified R functions for data exploration and other features.
 ## Installation
 
 ```
-# Install dependencies
+# Dependencies
 req_packs = c("Rcpp","RcppArmadillo","devtools",
 	"BiocManager")
+all_packs = as.character(installed.packages()[,1])
 
-if( !all(req_packs %in% installed.packages()[,1]) ){
-	miss_packs = req_packs[!(req_packs %in% all_packs)]
-	stop(sprintf("Missing package(s): %s",paste(miss_packs,collapse = ",")))
+for(pack in req_packs){
+	if( pack %in% all_packs ) next
+	stop(sprintf("Install R package = %s",pack))
+
 }
 
 # Install package
 if( !("smartr" %in% installed.packages()[,1]) )
 	devtools::install_github("pllittle/smartr")
 ```
+
