@@ -299,9 +299,10 @@ smart_names = function(MAT,ROW = NULL,COL = NULL){
 #' @importFrom devtools install_github
 #' @importFrom grDevices hcl rgb
 #' @importFrom graphics abline axis barplot boxplot
-#'	hist lines mtext par text
+#'	hist lines mtext par text layout image
 #' @importFrom stats cor density var quantile qnorm
-#' @importFrom gplots colorpanel
+#'	hclust dist as.dist as.dendrogram
+#' @importFrom gplots colorpanel 
 #' @importFrom Rcpp sourceCpp
 #' @useDynLib smartr
 NULL

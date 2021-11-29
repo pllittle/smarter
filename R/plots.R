@@ -409,6 +409,348 @@ smart_convCOLOR = function(MAT){
 	
 	return(cMAT)
 }
+smart_image = function(orig_mat,border = NULL,axes = FALSE,
+	GRID = NULL,xaxs = "i",yaxs = "i",resMAR = FALSE,...){
+	
+	# Set GRID parameters
+	if( is.null(GRID) ){
+		GRID = list(GRID = FALSE)
+	} else {
+		if( is.null(GRID$GRID) ){
+			GRID$GRID = FALSE
+		}
+		if( is.null(GRID$lwd) ){
+			GRID$lwd = 0.1
+		}
+	}
+	
+	# Code for creating the heatmap
+	if( !is.character(orig_mat) && is.numeric(orig_mat) ){
+		# No border
+		if( is.null(border) ){
+			par(mar = rep(0,4))
+		} else {
+			par(mar = border)
+		}
+		# Orienting the matrix to how its organized
+		if( length(dim(orig_mat)) == 2 ){
+			image_mat = t(orig_mat[rev(seq(nrow(orig_mat))),,drop=FALSE])
+		} else if( length(dim(orig_mat)) == 0 && is.null(nrow(orig_mat)) ){
+			image_mat = as.matrix(orig_mat)
+		}
+		# Plot
+		if( length(dim(image_mat)) == 2 ){
+			num_rows = nrow(image_mat); num_cols = ncol(image_mat)
+			x_coor = seq(0,1,1/(num_rows+1))[-c(1,num_rows+2)] - 0.5 /(num_rows+1)
+			xlims = as.numeric(summary(x_coor)[c(1,6)] + c(-1,1) * (0.5 /(num_rows+1)))
+			y_coor = seq(0,1,1/(num_cols+1))[-c(1,num_cols+2)] - 0.5 /(num_cols+1)
+			ylims = as.numeric(summary(y_coor)[c(1,6)] + c(-1,1) * (0.5 /(num_cols+1)))
+			
+			image(x = x_coor, y = y_coor, z = image_mat, 
+				axes = axes,xaxs = xaxs,yaxs = yaxs,
+				xlim = xlims, ylim = ylims,
+				...)
+			
+			if( GRID$GRID ){
+				abline(v = c(0,x_coor + 0.5 /(num_rows+1)),
+					h = y_coor + 0.5 /(num_cols+1),
+					lty = 3,lwd = GRID$lwd,col = rgb(0,0,0,1))
+			}
+			
+		} else if( length(dim(image_mat)) == 0 ){
+			
+			stop("No code for vector input yet")
+		}
+	}
+	
+	# If orig_mat is a character color matrix, convert then plot
+	if( is.character(orig_mat) && !is.numeric(orig_mat) ){
+		# orig_mat = bb_col
+		numeric_mat = orig_mat
+		numeric_mat = matrix(NA,nrow(orig_mat),ncol(orig_mat))
+		mat_names = names(table(orig_mat))
+		mat_colors = rep(NA,length(mat_names))
+		count = 1
+		for(mat_name in mat_names){
+			mat_colors[count] = mat_name
+			numeric_mat[orig_mat == mat_name] = count
+			count = count + 1
+		}
+		# numeric_mat = matrix(as.numeric(numeric_mat), nrow = dim(numeric_mat)[1])
+		smart_image(numeric_mat,col=mat_colors)
+	}
+	
+	if( resMAR ) par(mar = c(5,4,4,2) + 0.1)
+	
+}
+
+#' @title smart_heatmap
+#' @param MAT A numeric matrix of values
+#' @param DIST Boolean set to TRUE to treat MAT as distance
+#'	matrix. Otherwise, function can perform row/column clustering
+#' @param main A string for the overall heatmap title
+#' @param width NULL
+#' @param height NULL
+#' @param GRID NULL
+#' @param clustRC NULL
+#' @param nodePar_col NULL
+#' @param nodePar_row NULL
+#' @param mar NULL
+#' @param cex.main NULL
+#' @param rowData NULL
+#' @param colData NULL
+#' @param make_key NULL
+#' @param vec_cols NULL
+#' @export
+smart_heatmap = function(MAT = NULL,DIST = FALSE,main = "",
+	width = NULL,height = NULL,GRID = NULL,clustRC = c(TRUE,TRUE),
+	nodePar_col = NULL,nodePar_row = NULL,mar = 2,cex.main = 2,
+	rowData = NULL,colData = NULL,make_key = TRUE,vec_cols = NULL){
+	
+	if(FALSE){
+		
+		MAT = rr; DIST = !TRUE; main = "test"
+		width = NULL; height = NULL; GRID = !TRUE; clustRC = c(FALSE,TRUE)
+		nodePar_col = NULL; nodePar_row = NULL; mar = 2; cex.main = 2
+		rowData = NULL
+		
+		# rowData = list(dat = sdat,vars = c("TMB_bin","P1"))
+		colData = list(dat = dat2,vars = "SECTOR")
+		
+		
+	}
+	
+	if( is.null(MAT) ) 		stop("Specify a matrix for MAT")
+	if( is.null(width) ){
+		if( is.null(rowData) ){
+			width = c(1,3)
+			# width = c(1,1,3)
+		} else {
+			width = c(1,3,1)
+			if( !all(rownames(MAT) %in% rownames(rowData$dat)) )
+				stop("rownames mismatch")
+		}
+	}
+	if( is.null(height) ){
+		if( is.null(colData) ){
+			height = c(0.1,1,3)
+		} else {
+			height = c(0.1,1,3,1)
+			if( !all(colnames(MAT) %in% rownames(colData$dat)) )
+				stop("colnames mismatch")
+		}
+	}
+	
+	if( is.null(rowData) && is.null(colData) ){
+		mm = matrix(c(5,5,4,1,2,3),3,2,byrow = TRUE)
+	} else if( is.null(colData) ){
+		mm = matrix(c(5,5,5,4,1,7,2,3,6),3,3,byrow = TRUE)
+	} else if( is.null(rowData) ){
+		mm = matrix(c(5,5,4,1,2,3,7,6),ncol = 2,byrow = TRUE)
+	} else {
+		mm = matrix(c(5,5,5,4,1,7,2,3,6,9,8,0),4,3,byrow = TRUE)
+	}
+	mm
+	layout(mm,widths = width,heights = height)
+	# layout.show(max(mm))
+	# par(mar = rep(0,4))
+	
+	if( DIST ) clustRC = rep(TRUE,2)
+	
+	# Check row/col names
+	if( is.null(colnames(MAT)) ) colnames(MAT) = seq(ncol(MAT))
+	if( is.null(rownames(MAT)) ) rownames(MAT) = seq(nrow(MAT))
+	
+	# hclust cols
+	lab_col = colnames(MAT)
+	if( clustRC[2] == TRUE ){
+		
+		if( DIST == FALSE ){
+			h_col = hclust(dist(t(MAT)))
+		} else {
+			h_col = hclust(as.dist(MAT))
+		}
+		lab_col = h_col$labels[h_col$order]
+		
+		par(mar = c(mar,0,0,0))
+		
+		if( is.null(nodePar_col) )
+			nodePar_col = list(lab.cex = 1,pch = rep(NA,2))
+		if( is.null(nodePar_col$pch) )
+			nodePar_col$pch = rep(NA,2)
+		if( is.null(nodePar_col$lab.cex) )
+			nodePar_col$lab.cex = 1
+		
+		plot(as.dendrogram(h_col),xaxs = "i",
+			axes = FALSE,nodePar = nodePar_col)
+		
+	} else {
+		
+		par(mar = c(0,0,0,0))
+		plot(0,0,xlim = c(0,1),ylim = c(0,1),
+			xlab = "",ylab = "",
+			type = "n",axes = FALSE,xaxs = "i")
+		nc = ncol(MAT)
+		cex = 1
+		
+		if( is.null(nodePar_col) )
+			nodePar_col = list(lab.cex = 1,srt = 90)
+		if( is.null(nodePar_col$lab.cex) )
+			nodePar_col$lab.cex = 1
+		if( is.null(nodePar_col$srt) )
+			nodePar_col$srt = 90
+		if( is.null(nodePar_col$adj) )
+			nodePar_col$adj = ifelse(nodePar_col$srt == 90,0,0.5)
+		if( is.null(nodePar_col$xx_shift) )
+			nodePar_col$xx_shift = 0
+		if( is.null(nodePar_col$yy_shift) )
+			nodePar_col$yy_shift = 0
+		
+		text(x = seq(nc)/nc - 1/(nc*2) + nodePar_col$xx_shift,
+			y = rep(0,nc) + nodePar_col$yy_shift,labels = lab_col,
+			srt = nodePar_col$srt,cex = nodePar_col$lab.cex,
+			adj = nodePar_col$adj)
+		
+	}
+	
+	# hclust rows
+	lab_row = rownames(MAT)
+	if( clustRC[1] == TRUE ){
+		
+		if( DIST == FALSE ){
+			h_row = hclust(dist(MAT))
+		} else {
+			h_row = hclust(as.dist(MAT))
+		}
+		lab_row = h_row$labels[h_row$order]
+		
+		par(mar = c(0,0,0,mar))
+		
+		if( is.null(nodePar_row) )
+			nodePar_row = list(lab.cex = 1,pch = c(NA,NA))
+		if( is.null(nodePar_row$pch) )
+			nodePar_row$pch = rep(NA,2)
+		if( is.null(nodePar_row$lab.cex) )
+			nodePar_row$lab.cex = 1
+		
+		plot(rev(as.dendrogram(h_row)),yaxs = "i",
+			axes = FALSE,horiz = TRUE,nodePar = nodePar_row)
+		
+	} else {
+		
+		par(mar = rep(0,4))
+		plot(0,0,xlim = c(0,1),ylim = c(0,1),
+			type = "n",axes = FALSE,yaxs = "i")
+		nr = nrow(MAT)
+		cex = 1
+		
+		if( is.null(nodePar_row) )
+			nodePar_row = list(lab.cex = 1)
+		if( is.null(nodePar_row$lab.cex) )
+			nodePar_row$lab.cex = 1
+		if( is.null(nodePar_row$adj) )
+			nodePar_row$adj = 1
+		if( is.null(nodePar_row$xx_shift) )
+			nodePar_row$xx_shift = 0
+		if( is.null(nodePar_row$xx) )
+			nodePar_row$xx = 1
+		text(rep(nodePar_row$xx,nr) + nodePar_row$xx_shift,
+			seq(nr,1)/nr - 1/(nr*2),
+			labels = lab_row,cex = nodePar_row$lab.cex,
+			adj = nodePar_row$adj)
+		
+	}
+	
+	# heatmap
+	par(mar = rep(0,4))
+	ncols = min(length(unique(c(MAT))),5e1)
+	if( is.null(vec_cols) ){
+		vec_cols = colorpanel(n = ncols,
+			"deepskyblue","white","red")
+	}
+	num_cols = length(vec_cols)
+	MAT2 = MAT[lab_row,lab_col]
+	# if( DIST ) MAT2 = 1 - MAT[lab_row,lab_col]
+	if( DIST ) MAT2 = MAT[lab_row,lab_col]
+	smart_image(orig_mat = MAT2,col = vec_cols,
+		GRID = GRID,resMAR = TRUE)
+	
+	# Key/legend
+	par(mar = c(5,1,1,1))
+	rr_mat = range(MAT2); rr_mat
+	if( make_key && rr_mat[1] != rr_mat[2] ){
+		rr_bar = seq(rr_mat[1],rr_mat[2],length.out = num_cols); # rr_bar
+		n_bar = length(rr_bar); n_bar
+		if( DIST == FALSE ){
+			hi = hist(c(MAT2),plot = FALSE,breaks = c(rr_bar[1]*0.5,rr_bar)); # hi
+		} else {
+			hi = hist(MAT2[upper.tri(MAT2)],plot = FALSE,breaks = c(rr_bar[1]*0.5,rr_bar))
+		}
+		vec_cnts = hi$counts # don't care about white
+		# vec_cnts[1] = 0
+		vec_cnts = vec_cnts / sum(vec_cnts)
+		if( vec_cnts[1] > 0.9 ) vec_cnts[1] = 0
+		vec_cnts = vec_cnts / sum(vec_cnts)
+		ncnt = length(vec_cnts); ncnt
+		barplot(rep(max(vec_cnts),n_bar),col = vec_cols,
+			border = NA,space = 0,axes = FALSE)
+		par(lwd = 2)
+		barplot(vec_cnts,border = "cyan",col = NA,space = 0,
+			axes = FALSE,add = TRUE); par(lwd = 1)
+		rr_lab = smart_SN(seq(rr_mat[1],rr_mat[2],
+			length.out = 10),digits = 1); # rr_lab
+		axis(1,at = seq(1,n_bar,length.out = length(rr_lab)) - 1/2,
+			labels = rr_lab,las = 2,cex.axis = 0.75)
+	} else {
+		par(mar = rep(0,4))
+		plot(0,0,type = "n",axes = FALSE)
+	}
+	
+	# Main/Title
+	par(mar = rep(0,4))
+	plot(0,0,xlim = c(0,1),ylim = c(0,1),type = "n",axes = FALSE)
+	text(0.5,0.5,labels = main,cex = cex.main)
+	
+	# Row Data
+	if( !is.null(rowData) ){
+		par(mar = rep(0,4))
+		# Convert columns to character
+		rdat = smart_convCOLOR(MAT = rowData$dat[lab_row,rowData$vars,drop = FALSE])
+		# class(rdat); head(rdat)
+		smart_image(orig_mat = rdat,GRID = GRID,resMAR = TRUE)
+		
+		# Row labels
+		par(mar = rep(0,4))
+		plot(0,1,type = "n",xlim = c(0,1),ylim = c(0,1),
+			xaxs = "i",yaxs = "i",axes = FALSE)
+		nvars = length(rowData$vars)
+		text(x = seq(1,2*nvars,2)/(2*nvars),y = rep(0.2,nvars),
+			labels = rowData$vars,adj = 0.5,srt = 45)
+	}
+	
+	# Col Data
+	if( !is.null(colData) ){
+		par(mar = rep(0,4))
+		# Convert columns to character
+		cdat = smart_convCOLOR(MAT = colData$dat[lab_col,colData$vars,drop = FALSE])
+		# class(cdat); head(cdat)
+		smart_image(orig_mat = t(cdat),GRID = GRID,resMAR = TRUE)
+		
+		# Row labels
+		par(mar = rep(0,4))
+		plot(0,1,type = "n",xlim = c(0,1),ylim = c(0,1),
+			xaxs = "i",yaxs = "i",axes = FALSE)
+		nvars = length(colData$vars)
+		text(x = rep(0.75,nvars),y = rev(seq(1,2*nvars,2))/(2*nvars),
+			labels = colData$vars,adj = 0.5,srt = 0)
+	}
+	
+	# Reset layout
+	par(mfrow = c(1,1),mar = c(5,4,4,2) + 0.1)
+	
+	return(MAT2)
+	
+}
 
 
 ###
