@@ -1,9 +1,10 @@
 # smartr
+
 A R package with modified R functions for data exploration and other features.
 
 ## Installation
 
-```
+```R
 # Dependencies
 req_packs = c("Rcpp","RcppArmadillo","devtools",
 	"BiocManager")
