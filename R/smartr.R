@@ -177,6 +177,7 @@ smart_reqNames = function(DATA,REQ){
 #'	loop's progress
 #' @param nn A positive integer for the 
 #'	total number of loop iterations
+#' @param string A string to print
 #' @param iter A positive integer for how many
 #'	multiple iterations to print "."
 #' @param iter2 A positive integer to end
@@ -184,10 +185,10 @@ smart_reqNames = function(DATA,REQ){
 #'	progress
 #' @param ... arguments passed to cat
 #' @export
-smart_progress = function(ii,nn,iter = 5,iter2 = 2e2,...){
+smart_progress = function(ii,nn,string = ".",iter = 5,iter2 = 2e2,...){
 	
 	if(ii %% iter == 0)
-		cat(".",...)
+		cat(string,...)
 	
 	if(ii %% iter2 == 0 || ii == nn)
 		cat(sprintf("%s out of %s\n",ii,nn),...)

@@ -4,7 +4,7 @@
 \alias{smart_progress}
 \title{smart_progress}
 \usage{
-smart_progress(ii, nn, iter = 5, iter2 = 200, ...)
+smart_progress(ii, nn, string = ".", iter = 5, iter2 = 200, ...)
 }
 \arguments{
 \item{ii}{A positive integer to track a 
@@ -12,6 +12,8 @@ loop's progress}
 
 \item{nn}{A positive integer for the 
 total number of loop iterations}
+
+\item{string}{A string to print}
 
 \item{iter}{A positive integer for how many
 multiple iterations to print "."}
