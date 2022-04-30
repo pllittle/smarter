@@ -2,18 +2,18 @@
 # Generator token: 10BE3573-1514-4C36-9D1C-5A225CD40393
 
 Rcpp_logSumExp <- function(log_x) {
-    .Call('_smartr_Rcpp_logSumExp', PACKAGE = 'smartr', log_x)
+    .Call('_smarter_Rcpp_logSumExp', PACKAGE = 'smarter', log_x)
 }
 
 Rcpp_round <- function(vv, digits) {
-    invisible(.Call('_smartr_Rcpp_round', PACKAGE = 'smartr', vv, digits))
+    invisible(.Call('_smarter_Rcpp_round', PACKAGE = 'smarter', vv, digits))
 }
 
 Rcpp_chk_threads <- function(NN, ncores = 1L) {
-    invisible(.Call('_smartr_Rcpp_chk_threads', PACKAGE = 'smartr', NN, ncores))
+    invisible(.Call('_smarter_Rcpp_chk_threads', PACKAGE = 'smarter', NN, ncores))
 }
 
 # Register entry points for exported C++ functions
 methods::setLoadAction(function(ns) {
-    .Call('_smartr_RcppExport_registerCCallable', PACKAGE = 'smartr')
+    .Call('_smarter_RcppExport_registerCCallable', PACKAGE = 'smarter')
 })

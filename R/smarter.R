@@ -319,7 +319,7 @@ smart_names = function(MAT,ROW = NULL,COL = NULL){
 #'	hclust dist as.dist as.dendrogram
 #' @importFrom gplots colorpanel 
 #' @importFrom Rcpp sourceCpp
-#' @useDynLib smartr
+#' @useDynLib smarter
 NULL
 
 # Steps to create/check/install package from directory
@@ -330,7 +330,7 @@ NULL
 # devtools::document(pkg = pack_dir); usethis::use_gpl3_license()
 # devtools::check(pkg = pack_dir,manual = TRUE,cran = TRUE,error_on = "note")
 # devtools::install(pack_dir)
-# devtools::build(pkg = "C:/Users/Admin/Desktop/github/smartr",path = "C:/Users/Admin/Desktop/smartr_1.0.0.tar.gz")
+# devtools::build(pkg = pack_dir,path = "C:/Users/Admin/Desktop/smarter_1.0.0.tar.gz")
 
 
 
