@@ -1,7 +1,7 @@
 # smarter
 
 <!-- badges: start -->
-![C++](https://img.shields.io/badge/c++-%2300599C.svg?style=for-the-badge&logo=c%2B%2B&logoColor=white)
+<img src="https://img.shields.io/badge/c++-%2300599C.svg?style=for-the-badge&logo=c%2B%2B&logoColor=gold" alt="Girl in a jacket" width="100" height="40">
 ![R](https://img.shields.io/badge/r-%23276DC3.svg?style=for-the-badge&logo=r&logoColor=white)
 ![CRAN status](https://www.r-pkg.org/badges/version/smarter)
 <!-- badges: end -->
