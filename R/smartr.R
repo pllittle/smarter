@@ -8,6 +8,14 @@
 #' @param mess Default to \code{FALSE}.
 #'	Otherwise a message is printed.
 #' @param ... arguments passed to merge
+#' @examples 
+#'
+#' aa = smart_df(a = c(1,2,3),b = c("a","b","c"),c = c(4,5,6))
+#' bb = smart_df(a = c(2,4,5),b = c("b","d","e"),d = c("alpha","beta","gamma"))
+#' smart_merge(aa,bb,all.x = TRUE)
+#' smart_merge(aa,bb,all.y = TRUE)
+#' smart_merge(aa,bb,all = TRUE)
+#'
 #' @export
 smart_merge = function(x,y,mess = FALSE,...){
 	if( mess ){
@@ -20,6 +28,12 @@ smart_merge = function(x,y,mess = FALSE,...){
 
 #' @title smart_table
 #' @param ... arguments passed to table
+#' @examples
+#'
+#' aa = c(1,1,2,2,2,3,NA)
+#' table(aa)
+#' smart_table(aa)
+#'
 #' @export
 smart_table = function(...){
 	table(...,useNA = 'ifany')
@@ -316,7 +330,7 @@ NULL
 # devtools::document(pkg = pack_dir); usethis::use_gpl3_license()
 # devtools::check(pkg = pack_dir,manual = TRUE,cran = TRUE,error_on = "note")
 # devtools::install(pack_dir)
-
+# devtools::build(pkg = "C:/Users/Admin/Desktop/github/smartr",path = "C:/Users/Admin/Desktop/smartr_1.0.0.tar.gz")
 
 
 

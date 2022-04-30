@@ -19,3 +19,12 @@ Otherwise a message is printed.}
 \description{
 smart_merge
 }
+\examples{
+
+aa = smart_df(a = c(1,2,3),b = c("a","b","c"),c = c(4,5,6))
+bb = smart_df(a = c(2,4,5),b = c("b","d","e"),d = c("alpha","beta","gamma"))
+smart_merge(aa,bb,all.x = TRUE)
+smart_merge(aa,bb,all.y = TRUE)
+smart_merge(aa,bb,all = TRUE)
+
+}

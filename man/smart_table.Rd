@@ -12,3 +12,10 @@ smart_table(...)
 \description{
 smart_table
 }
+\examples{
+
+aa = c(1,1,2,2,2,3,NA)
+table(aa)
+smart_table(aa)
+
+}
