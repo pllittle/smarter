@@ -1,10 +1,8 @@
 # smarter
 
-<!-- badges: start -->
-<img src="https://img.shields.io/badge/c++-%2300599C.svg?style=for-the-badge&logo=c%2B%2B&logoColor=gold" alt="Girl in a jacket" width="100" height="40">
-![R](https://img.shields.io/badge/r-%23276DC3.svg?style=for-the-badge&logo=r&logoColor=white)
-![CRAN status](https://www.r-pkg.org/badges/version/smarter)
-<!-- badges: end -->
+<img src="https://img.shields.io/badge/c++-%2300599C.svg?style=for-the-badge&logo=c%2B%2B&logoColor=gold" width="50" height="20">
+<img src="https://img.shields.io/badge/r-%23276DC3.svg?style=for-the-badge&logo=r&logoColor=pink" width="50" height="20">
+<img src="https://www.r-pkg.org/badges/version/smarter" width="50" height="20">
 
 A R package with modified R functions for data exploration and other features.
 
