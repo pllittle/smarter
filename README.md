@@ -4,6 +4,8 @@ A R package with modified R functions for data exploration and other features.
 
 ## Installation
 
+Copy/paste the following code to install R package dependencies and **smarter**.
+
 ```R
 # Dependencies
 req_packs = c("Rcpp","RcppArmadillo","devtools",
