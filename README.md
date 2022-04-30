@@ -36,5 +36,7 @@ for(pack in req_packs){
 }
 
 if( rerun == 1 ) stop("Re-run above code")
+
 ```
 
+## Future ideas
