@@ -153,10 +153,11 @@ smart_prepPack = function(pack_dir = NULL,pandoc = NULL,
 	if(FALSE){
 		rm(list=ls())
 		pack_dir = NULL
-		pack_dir = "C:/Users/Admin/Desktop/github/ROKET"
-		# pack_dir = "C:/Users/Admin/Desktop/github/smarter"
+		# pack_dir = "C:/Users/Admin/Desktop/github/ROKET"
+		pack_dir = "C:/Users/Admin/Desktop/github/smarter"
 		pandoc = NULL
 		make_vign = FALSE
+		cran = TRUE
 		verbose = TRUE
 		
 	}
@@ -188,18 +189,28 @@ smart_prepPack = function(pack_dir = NULL,pandoc = NULL,
 		q("no")
 	}
 	
+	# Check title case
+	desc_fn = file.path(pack_dir,"DESCRIPTION")
+	bb = readLines(desc_fn)
+	bb = bb[grepl("^Title:",bb)]
+	bb = strsplit(bb," ")[[1]]
+	bb = paste(bb[-1],collapse = " ")
+	bb_correct = str_to_title(bb)
+	if( bb != bb_correct )
+		stop(sprintf("Change title to '%s'",bb_correct))
+	
 	if( any(grepl("src",pack_fns)) && length(list.files("src",pattern = ".cpp$")) > 0 ){
 		if( verbose ) cat(sprintf("%s: Compiling %s's files ...\n",date(),pack))
-		tryCatch(compileAttributes(pkgdir = pack_dir),
+		tryCatch(Rcpp::compileAttributes(pkgdir = pack_dir),
 			error = function(ee){stop("Rcpp::compileAttributes() failed")})
 	}
 	
 	if( verbose ) cat(sprintf("%s: Documenting %s ...\n",date(),pack))
-	tryCatch(document(pkg = pack_dir),
+	bb = tryCatch(devtools::document(pkg = pack_dir),
 		error = function(ee){stop("devtools::document() failed")})
 	
 	if( verbose ) cat(sprintf("%s: Licensing %s ...\n",date(),pack))
-	tryCatch(use_gpl3_license(),
+	bb = tryCatch(usethis::use_gpl3_license(),
 		error = function(ee){stop("usethis::use_gpl3_license() failed")})
 	
 	if( !is.null(pandoc) && is.character(pandoc) && file.exists(pandoc) 
@@ -211,22 +222,22 @@ smart_prepPack = function(pack_dir = NULL,pandoc = NULL,
 	make_vign = check_pandoc && chk_vign && make_vign
 	
 	if( verbose ) cat(sprintf("%s: Checking %s ...\n",date(),pack))
-	tryCatch(check(pkg = pack_dir,manual = TRUE,cran = cran,
+	bb = tryCatch(devtools::check(pkg = pack_dir,manual = TRUE,cran = cran,
 		error_on = "note",vignettes = make_vign),
 		error = function(ee){stop("devtools::check() failed")})
 	
 	if( verbose ) cat(sprintf("%s: Installing %s ...\n",date(),pack))
-	tryCatch(devtools::install(pkgdir = pack_dir,build_vignettes = make_vign),
+	bb = tryCatch(devtools::install(pkgdir = pack_dir,build_vignettes = make_vign),
 		error = function(ee){stop("devtools::install() failed")})
 	
-	bb = readLines(file.path(pack_dir,"DESCRIPTION"))
+	bb = readLines(desc_fn)
 	vers = strsplit(bb[grepl("Version",bb)]," ")[[1]][2]
 	vers
 	
 	if( !is.null(build_dir) ){
 		if( !dir.exists(build_dir) ) dir.create(build_dir)
 		if( verbose ) cat(sprintf("%s: Building %s ...\n",date(),pack))
-		tryCatch(build(pkg = pack_dir,path = file.path(build_dir,
+		bb = tryCatch(build(pkg = pack_dir,path = file.path(build_dir,
 			sprintf("%s_%s.tar.gz",pack,vers))),
 			error = function(ee){stop("devtools::build() failed")})
 	}
