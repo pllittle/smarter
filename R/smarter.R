@@ -333,7 +333,7 @@ NULL
 # Rcpp::compileAttributes(pkgdir = pack_dir)
 # devtools::document(pkg = pack_dir); usethis::use_gpl3_license()
 # devtools::check(pkg = pack_dir,manual = TRUE,cran = TRUE,error_on = "note")
-# devtools::install(pack_dir,build_vignettes = make_vign)
+# devtools::install(pack_dir)
 # bb = readLines(file.path(pack_dir,"DESCRIPTION")); vers = strsplit(bb[grepl("Version",bb)]," ")[[1]][2]; vers
 # devtools::build(pkg = pack_dir,path = sprintf("C:/Users/Admin/Desktop/%s_%s.tar.gz",pack,vers))
 

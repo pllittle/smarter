@@ -35,7 +35,7 @@ for(pack in req_packs){
 			dependencies = TRUE),
 			error = function(ee){"error"})
 	} else {
-		bb = tryCatch(devtools::install.packages(pkgs = pack,
+		bb = tryCatch(install.packages(pkgs = pack,
 			dependencies = TRUE),
 			error = function(ee){"error"})
 	}

@@ -216,7 +216,7 @@ smart_prepPack = function(pack_dir = NULL,pandoc = NULL,
 		error = function(ee){stop("devtools::check() failed")})
 	
 	if( verbose ) cat(sprintf("%s: Installing %s ...\n",date(),pack))
-	tryCatch(install(pkgdir = pack_dir,build_vignettes = make_vign),
+	tryCatch(devtools::install(pkgdir = pack_dir,build_vignettes = make_vign),
 		error = function(ee){stop("devtools::install() failed")})
 	
 	bb = readLines(file.path(pack_dir,"DESCRIPTION"))
@@ -232,6 +232,79 @@ smart_prepPack = function(pack_dir = NULL,pandoc = NULL,
 	}
 	
 	return(NULL)
+}
+
+#' @title smart_packDeps
+#' @description Install package with accompandied dependencies and load
+#' @param cran_packs A character string of CRAN package names.
+#' @param bioc_packs A character string of Bioconductor package names.
+#' @param github_packs A character string of GitHub repositories of the form
+#'	organization/repo or username/repo.
+#' @param local_packs A character string of local full path names R packages
+#' @inheritParams smart_prepPack
+#' @param build_vign Boolean for building R package vignettes if available.
+#' @export
+smart_packDeps = function(cran_packs = NULL,bioc_packs = NULL,
+	github_packs = NULL,local_packs = NULL,pandoc = NULL,build_vign = FALSE){
+	
+	# Dependencies
+	cran_packs = c("BiocManager","devtools","rmarkdown",cran_packs)
+	req_packs = c(cran_packs,bioc_packs,github_packs,local_packs)
+	req_packs = unique(req_packs)
+	if( is.null(req_packs) ) stop("Specify a package")
+	if( length(req_packs) == 0 ) stop("No package specified")
+	all_packs = as.character(installed.packages()[,1])
+	rerun = 0
+	
+	# Check Pandoc
+	if( !is.null(pandoc) && is.character(pandoc) && file.exists(pandoc) 
+		&& Sys.getenv("RSTUDIO_PANDOC") == "" )
+		Sys.setenv("RSTUDIO_PANDOC" = pandoc)
+	check_pandoc = pandoc_available()
+	build_vign = ( check_pandoc 
+		&& Sys.getenv("RSTUDIO_PANDOC") != ""
+		&& file.exists(Sys.getenv("RSTUDIO_PANDOC"))
+		&& build_vign )
+	
+	for(pack in req_packs){
+		pack2 = strsplit(pack,"/")[[1]]
+		pack2 = pack2[length(pack2)]
+		
+		if( pack2 %in% all_packs ){
+			library(package = pack2,character.only = TRUE)
+			next
+		}
+		
+		bb = NULL
+		if( !is.null(github_packs) && pack %in% github_packs ){
+			bb = tryCatch(install_github(pack,dependencies = TRUE,
+				build_vignettes = build_vign),
+				error = function(ee){"error"})
+		} else if( !is.null(cran_packs) && pack %in% cran_packs ){
+			bb = tryCatch(install.packages(pkgs = pack,dependencies = TRUE,
+				build_vignettes = build_vign),
+				error = function(ee){"error"})
+		} else if( !is.null(bioc_packs) && pack %in% bioc_packs ){
+			bb = tryCatch(BiocManager::install(pkg = pack,dependencies = TRUE,
+				build_vignettes = build_vign),
+				error = function(ee){"error"})
+		} else if( !is.null(local_packs) && pack %in% local_packs ){
+			if( !dir.exists(pack) ) stop(sprintf("%s doesn't exist",pack))
+			bb = tryCatch(devtools::install(pack,dependencies = TRUE,
+				build_vignettes = build_vign),
+				error = function(ee){"error"})
+		}
+		
+		if( !is.null(bb) && bb == "error" )
+			stop(sprintf("Error for package = %s",pack2))
+		rerun = 1
+
+	}
+
+	if( rerun == 1 ) stop("Re-run smart_packDeps()")
+	
+	return(NULL)
+	
 }
 
 ###
