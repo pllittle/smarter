@@ -1,5 +1,5 @@
 <div align="left">
-<img src="https://img.shields.io/badge/Shell_Scripts-%23121011.svg?style=square&logo=gnu-bash&logoColor=green&label=smarter" width="90%" />
+<img src="https://img.shields.io/badge/R-%23276DC3.svg?style=square&logo=r&logoColor=pink&label=smarter" width="90%" />
 </div>
 
 <!-- badges: start -->
