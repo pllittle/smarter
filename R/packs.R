@@ -132,5 +132,107 @@ smart_pack = function(pack,repo = "CRAN",src_fn = "",uname = "",
 	
 }
 
+#' @title smart_prepPack
+#' @description Test, check, install, and maybe build a package
+#' @param pack_dir Defaults to \code{NULL}, assumes \code{getwd()} is the package directory.
+#'	Otherwise, a character string for the local package directory.
+#' @param pandoc Defaults to \code{NULL}. If specified, it is a character string
+#'	for the full path of pandoc.
+#' @param make_vign Boolean set to \code{FALSE} by default. If \code{TRUE},
+#'	attempts to compile available vignettes when checking the package.
+#' @param cran Boolean set to \code{TRUE} by default. If \code{FALSE},
+#'	don't check CRAN specifications.
+#' @param build_dir Defaults to \code{NULL}. Otherwise specify a
+#'	character string for the path to build the package tar.gz file under.
+#' @param verbose Boolean set to \code{TRUE} by default. Provides
+#'	verbose output of package preparation.
+#' @export
+smart_prepPack = function(pack_dir = NULL,pandoc = NULL,
+	make_vign = FALSE,cran = TRUE,build_dir = NULL,verbose = TRUE){
+	
+	if(FALSE){
+		rm(list=ls())
+		pack_dir = NULL
+		pack_dir = "C:/Users/Admin/Desktop/github/ROKET"
+		# pack_dir = "C:/Users/Admin/Desktop/github/smarter"
+		pandoc = NULL
+		make_vign = FALSE
+		verbose = TRUE
+		
+	}
+	
+	if( is.null(pack_dir) ){
+		bb = strsplit(getwd(),"/")[[1]]
+		pack_dir = paste(bb[-length(bb)],collapse = "/")
+	} else {
+		if( !dir.exists(pack_dir) ) stop(sprintf("%s doesn't exist",pack_dir))
+		setwd(pack_dir)
+	}
+	pack_dir
+	
+	if( verbose ) cat("Check if getwd() a package directory ...\n")
+	pack_fns = list.files(pack_dir); pack_fns
+	nms = c("DESCRIPTION","NAMESPACE","R")
+	for(nm in nms){
+		if( !any(grepl(sprintf("^%s$",nm),pack_fns)) )
+			stop(sprintf("Add %s",nm))
+	}
+	
+	pack = strsplit(pack_dir,"/")[[1]]
+	pack = pack[length(pack)]
+	pack
+	
+	if( pack %in% installed.packages()[,1] ){
+		if( verbose ) cat(sprintf("%s already installed, removing ...\n",pack))
+		remove.packages(pack)
+		q("no")
+	}
+	
+	if( any(grepl("src",pack_fns)) && length(list.files("src",pattern = ".cpp$")) > 0 ){
+		if( verbose ) cat(sprintf("%s: Compiling %s's files ...\n",date(),pack))
+		tryCatch(compileAttributes(pkgdir = pack_dir),
+			error = function(ee){stop("Rcpp::compileAttributes() failed")})
+	}
+	
+	if( verbose ) cat(sprintf("%s: Documenting %s ...\n",date(),pack))
+	tryCatch(document(pkg = pack_dir),
+		error = function(ee){stop("devtools::document() failed")})
+	
+	if( verbose ) cat(sprintf("%s: Licensing %s ...\n",date(),pack))
+	tryCatch(use_gpl3_license(),
+		error = function(ee){stop("usethis::use_gpl3_license() failed")})
+	
+	if( !is.null(pandoc) && is.character(pandoc) && file.exists(pandoc) 
+		&& Sys.getenv("RSTUDIO_PANDOC") == "" )
+		Sys.setenv("RSTUDIO_PANDOC" = pandoc)
+	check_pandoc = pandoc_available()
+	
+	chk_vign = length(list.files("vignettes",pattern = ".Rmd$")) > 0
+	make_vign = check_pandoc && chk_vign && make_vign
+	
+	if( verbose ) cat(sprintf("%s: Checking %s ...\n",date(),pack))
+	tryCatch(check(pkg = pack_dir,manual = TRUE,cran = cran,
+		error_on = "note",vignettes = make_vign),
+		error = function(ee){stop("devtools::check() failed")})
+	
+	if( verbose ) cat(sprintf("%s: Installing %s ...\n",date(),pack))
+	tryCatch(install(pkgdir = pack_dir,build_vignettes = make_vign),
+		error = function(ee){stop("devtools::install() failed")})
+	
+	bb = readLines(file.path(pack_dir,"DESCRIPTION"))
+	vers = strsplit(bb[grepl("Version",bb)]," ")[[1]][2]
+	vers
+	
+	if( !is.null(build_dir) ){
+		if( !dir.exists(build_dir) ) dir.create(build_dir)
+		if( verbose ) cat(sprintf("%s: Building %s ...\n",date(),pack))
+		tryCatch(build(pkg = pack_dir,path = file.path(build_dir,
+			sprintf("%s_%s.tar.gz",pack,vers))),
+			error = function(ee){stop("devtools::build() failed")})
+	}
+	
+	return(NULL)
+}
+
 ###
 

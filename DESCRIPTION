@@ -8,6 +8,6 @@ Description: A collection of modified R functions
 Encoding: UTF-8
 RoxygenNote: 7.1.2
 Imports: BiocManager, devtools, RCurl, Rcpp, gplots,
-				grDevices, stats
+	grDevices, stats, usethis, rmarkdown
 LinkingTo: Rcpp, RcppArmadillo
 License: GPL (>= 3)

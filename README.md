@@ -1,5 +1,5 @@
 <div align="left">
-<a href=""><img src="https://img.shields.io/badge/R-%23276DC3.svg?style=square&logo=r&logoColor=pink&label=smarter" width="400" /></a>
+<a href=""><img src="https://img.shields.io/badge/R-%23276DC3.svg?style=square&logo=r&logoColor=pink&label=smarter" width="500" /></a>
 </div>
 
 <!-- badges: start -->
@@ -16,8 +16,9 @@ Copy/paste the following code to install R package dependencies and **smarter**.
 
 ```R
 # Dependencies
-req_packs = c("Rcpp","RcppArmadillo","devtools",
-	"BiocManager","smarter")
+req_packs = c("usethis","rmarkdown","Rcpp",
+	"RcppArmadillo","devtools","BiocManager",
+	"smarter")
 all_packs = as.character(installed.packages()[,1])
 rerun = 0
 
