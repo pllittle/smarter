@@ -1,4 +1,6 @@
-# smarter
+<div align="left">
+<img src="https://img.shields.io/badge/Shell_Scripts-%23121011.svg?style=square&logo=gnu-bash&logoColor=green&label=smarter" width="90%" />
+</div>
 
 <!-- badges: start -->
 ![C++](https://img.shields.io/badge/C++-%2300599C.svg?style=square&logo=c%2B%2B&logoColor=gold)
