@@ -153,8 +153,8 @@ smart_prepPack = function(pack_dir = NULL,pandoc = NULL,
 	if(FALSE){
 		rm(list=ls())
 		pack_dir = NULL
-		# pack_dir = "C:/Users/Admin/Desktop/github/ROKET"
 		pack_dir = "C:/Users/Admin/Desktop/github/smarter"
+		# pack_dir = "C:/Users/Admin/Desktop/github/ROKET"
 		pandoc = NULL
 		make_vign = FALSE
 		cran = TRUE
@@ -190,16 +190,6 @@ smart_prepPack = function(pack_dir = NULL,pandoc = NULL,
 		q("no")
 	}
 	
-	# Check title case
-	desc_fn = file.path(pack_dir,"DESCRIPTION")
-	bb = readLines(desc_fn)
-	bb = bb[grepl("^Title:",bb)]
-	bb = strsplit(bb," ")[[1]]
-	bb = paste(bb[-1],collapse = " ")
-	bb_correct = stringr::str_to_title(bb)
-	if( bb != bb_correct )
-		stop(sprintf("Change title to '%s'",bb_correct))
-	
 	if( any(grepl("src",pack_fns)) && length(list.files("src",pattern = ".cpp$")) > 0 ){
 		if( verbose ) cat(sprintf("%s: Compiling %s's files ...\n",date(),pack))
 		tryCatch(Rcpp::compileAttributes(pkgdir = pack_dir),
@@ -231,6 +221,7 @@ smart_prepPack = function(pack_dir = NULL,pandoc = NULL,
 	tryCatch(devtools::install(pkgdir = pack_dir,build_vignettes = make_vign),
 		error = function(ee){stop("devtools::install() failed")})
 	
+	desc_fn = file.path(pack_dir,"DESCRIPTION")
 	bb = readLines(desc_fn)
 	vers = strsplit(bb[grepl("Version",bb)]," ")[[1]][2]
 	vers

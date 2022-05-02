@@ -323,7 +323,6 @@ smart_names = function(MAT,ROW = NULL,COL = NULL){
 #'	hclust dist as.dist as.dendrogram
 #' @importFrom gplots colorpanel 
 #' @importFrom Rcpp sourceCpp compileAttributes
-#' @importFrom stringr str_to_title
 #' @useDynLib smarter
 NULL
 

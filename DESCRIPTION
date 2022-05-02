@@ -1,5 +1,6 @@
 Package: smarter
-Title: A Collection Of Modified R Functions To Make Basic Coding More Convenient
+Title: A Collection of Modified R Functions to Make Basic 
+	Coding More Convenient
 Version: 1.0.0
 Author: Paul Little
 Maintainer: Paul Little <plittle@fredhutch.org>
@@ -11,6 +12,6 @@ Description: A collection of modified R functions
 Encoding: UTF-8
 RoxygenNote: 7.1.2
 Imports: BiocManager, devtools, RCurl, Rcpp, gplots,
-	grDevices, stats, usethis, rmarkdown, stringr
+	grDevices, stats, usethis, rmarkdown
 LinkingTo: Rcpp, RcppArmadillo
 License: GPL (>= 3)
