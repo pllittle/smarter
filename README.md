@@ -1,11 +1,14 @@
 <div align="left">
-<a href=""><img src="https://img.shields.io/badge/R-%23276DC3.svg?style=square&logo=r&logoColor=pink&label=smarter" width="500" /></a>
+<a href=""><img src="https://img.shields.io/badge/R-%23276DC3.svg?style=square&logo=r&logoColor=pink&label=smarter" height="80" /></a>
 </div>
 
 <!-- badges: start -->
 ![C++](https://img.shields.io/badge/C++-%2300599C.svg?style=square&logo=c%2B%2B&logoColor=gold)
 ![R](https://img.shields.io/badge/R-%23276DC3.svg?style=square&logo=r&logoColor=pink)
 ![CRAN status](https://www.r-pkg.org/badges/version/smarter)
+[![Project Status: Active - The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
+[![](https://img.shields.io/github/languages/code-size/pllittle/smarter.svg)](https://github.com/pllittle/smarter)
+[![](https://img.shields.io/github/last-commit/pllittle/smarter.svg)](https://github.com/pllittle/smarter/commits/master)
 <!-- badges: end -->
 
 A R package with modified R functions for data exploration and other features.
