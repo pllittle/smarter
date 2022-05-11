@@ -230,7 +230,8 @@ smart_prepPack = function(pack_dir = NULL,pandoc = NULL,
 		if( !dir.exists(build_dir) ) dir.create(build_dir)
 		if( verbose ) cat(sprintf("%s: Building %s ...\n",date(),pack))
 		tryCatch(devtools::build(pkg = pack_dir,path = file.path(build_dir,
-			sprintf("%s_%s.tar.gz",pack,vers))),
+			sprintf("%s_%s.tar.gz",pack,vers)),
+			vignettes = make_vign),
 			error = function(ee){stop("devtools::build() failed")})
 	}
 	
