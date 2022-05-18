@@ -377,7 +377,7 @@ smart_colors = function(nn,alpha = 1,overwrite = FALSE){
 		hcl(h = hues,l = 65,c = 100,alpha = alpha)[1:nn]
 	}
 }
-smart_convCOLOR = function(MAT){
+smart_convCOLOR = function(MAT,max_cats = 5,overwrite = FALSE){
 	cMAT = c()
 	num_row = nrow(MAT)
 	
@@ -388,8 +388,9 @@ smart_convCOLOR = function(MAT){
 		if( uniq_num == 1 ){
 			tmp_col = rep("white",num_row)
 		
-		} else if( uniq_num %in% seq(2,5) ){
-			vec_col = smart_colors(nn = uniq_num)
+		} else if( uniq_num %in% seq(2,max_cats) ){
+			vec_col = smart_colors(nn = uniq_num,
+				overwrite = overwrite)
 			tmp_col = rep(NA,num_row)
 			for(ii in seq(uniq_num)){
 				tmp_col[ MAT[,cc] == uniq_elem[ii] ] = vec_col[ii]
