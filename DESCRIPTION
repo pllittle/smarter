@@ -10,8 +10,8 @@ Description: A collection of modified R functions
 	convenient data visualization, loop progression, 
 	software packaging, and installation.
 Encoding: UTF-8
-RoxygenNote: 7.1.2
-Imports: devtools, RCurl, Rcpp, gplots,
+RoxygenNote: 7.2.0
+Imports: BiocManager, devtools, RCurl, Rcpp, gplots,
 	grDevices, stats, usethis, rmarkdown
 LinkingTo: Rcpp, RcppArmadillo
 License: GPL (>= 3)
