@@ -56,6 +56,8 @@ smart_compMATs = function(MAT1,MAT2 = NULL,which_range = NULL,
 	xlab,ylab,show_corr = TRUE,show_plot = FALSE,main = NULL,
 	vec_col = NULL,...){
 	
+	oldpar = par(no.readonly = TRUE)
+	
 	num_vars = ncol(MAT1)
 	num_col = ceiling(sqrt(num_vars))
 	num_row = ceiling(num_vars / num_col)
@@ -81,7 +83,11 @@ smart_compMATs = function(MAT1,MAT2 = NULL,which_range = NULL,
 		} else {
 			oma = c(0,0,2,0)
 		}
-		par(mfrow=c(num_row,num_col),mar=c(4.3,4,2,1),oma=oma,bty="n")
+		par(mfrow = c(num_row,num_col),
+			mar = c(4.3,4,2,1),oma = oma,
+			bty = "n")
+		on.exit(par(oldpar))
+		
 		for(ii in seq(num_vars)){
 			if( !is.null(MAT2) ){
 				if( is.null(which_range) ){
@@ -112,23 +118,32 @@ smart_compMATs = function(MAT1,MAT2 = NULL,which_range = NULL,
 					xlab = xlab,main = colnames(MAT1)[ii])
 			}
 		}
-		if( !is.null(main) ) mtext(main,outer=TRUE,cex=1.3)
-		par(mfrow=c(1,1),mar=c(5,4,4,2)+0.1,oma=rep(0,4),bty="o")
+		
+		if( !is.null(main) ) 
+			mtext(main,outer = TRUE,cex = 1.3)
+		
 	}
 	
 }
 smart_scatter = function(MAT1,MAT2,mainCor=TRUE,pt_col=NULL,diagOnly=FALSE,...){
+	
+	oldpar = par(no.readonly = TRUE)
+	
 	nmat1 = ncol(MAT1)
 	nmat2 = ncol(MAT2)
 	if( diagOnly ) nmat1 = 1
 	
-	par(mfrow=c(nmat1,nmat2),mar=c(4.3,4,1.2,0.2),bty="n")
+	par(mfrow = c(nmat1,nmat2),
+		mar = c(4.3,4,1.2,0.2),
+		bty = "n")
+	on.exit(par(oldpar))
+	
 	for(ii in seq(ncol(MAT1))){
 	for(jj in seq(ncol(MAT2))){
 		
 		xlab = ""; ylab = ""
-		if(jj==1) ylab = colnames(MAT1)[ii]
-		if(ii==nmat1) xlab = colnames(MAT2)[jj]
+		if( jj == 1 ) ylab = colnames(MAT1)[ii]
+		if( ii == nmat1 ) xlab = colnames(MAT2)[jj]
 		
 		if( diagOnly ){
 			if( ii != jj ){
@@ -151,14 +166,18 @@ smart_scatter = function(MAT1,MAT2,mainCor=TRUE,pt_col=NULL,diagOnly=FALSE,...){
 			submain = sprintf("P=%s;S=%s",pear,spear)
 		}
 		
-		plot(MAT2[,jj],MAT1[,ii],col=pt_col,
-			xlab=xlab,ylab=ylab,main=submain,...)
-		abline(a=0,b=1,lwd=2,lty=2,col=rgb(0,0,0,0.3))
-	}
-	}
-	par(mfrow=c(1,1),mar=c(5,4,4,2)+0.1,bty="o")
+		plot(MAT2[,jj],MAT1[,ii],col = pt_col,
+			xlab = xlab,ylab = ylab,main = submain,
+			...)
+		abline(a = 0,b = 1,lwd = 2,lty = 2,
+			col = rgb(0,0,0,0.3))
+	}}
+	
 }
 smart_mplot = function(DATA,LABEL=NULL,ABLINE = FALSE,...){
+	
+	oldpar = par(no.readonly = TRUE)
+	
 	if( "matrix" %in% class(DATA) ){
 		DATA = smart_df(DATA)
 	}
@@ -173,6 +192,8 @@ smart_mplot = function(DATA,LABEL=NULL,ABLINE = FALSE,...){
 		oma = rep(0,4)
 	}
 	par(mfrow=c(num_rows,num_cols),mar=c(4,4,1,0.5),oma = oma,bty="n")
+	on.exit(par(oldpar))
+	
 	for(ii in seq(num_vars)){
 	for(jj in seq(num_vars)){
 		if(ii < jj){
@@ -182,14 +203,16 @@ smart_mplot = function(DATA,LABEL=NULL,ABLINE = FALSE,...){
 				ylab = names(DATA)[jj],main = tmp_main,...)
 			if( ABLINE ) abline(a = 0,b = 1,lty = 2,col = rgb(1,0,0,1))
 		}
-	}
-	}
+	}}
+	
 	if( !is.null(LABEL) ) mtext(LABEL,outer=TRUE,cex=1.3)
-	par(mfrow=c(1,1),mar=c(5,4,4,2)+0.1,oma=rep(0,4),bty="o")
+	
 }
 smart_histMAT = function(MAT,MEAN = FALSE,MAIN = NULL,
 	plot_MAIN = NULL,DENS = FALSE,ABLINE = NULL,gRANGE = FALSE,
 	...){
+	
+	oldpar = par(no.readonly = TRUE)
 	
 	# Check variances
 	tmp_var = diag(var(MAT,na.rm = TRUE))
@@ -205,7 +228,10 @@ smart_histMAT = function(MAT,MEAN = FALSE,MAIN = NULL,
 		oma = rep(0,4)
 	}
 	
-	par(mfrow=c(num_rows,num_cols),mar=c(4,4.2,1,0.5),oma=oma)
+	par(mfrow = c(num_rows,num_cols),
+		mar = c(4,4.2,1,0.5),oma = oma)
+	on.exit(par(oldpar))
+	
 	for(cc in seq(num_vars)){
 		main = colnames(MAT)[cc]
 		if( !is.null(plot_MAIN) && length(plot_MAIN) == ncol(MAT) ){
@@ -240,10 +266,12 @@ smart_histMAT = function(MAT,MEAN = FALSE,MAIN = NULL,
 	if( !is.null(MAIN) ){
 		mtext(MAIN,outer=TRUE,cex=1.4)
 	}
-	par(mfrow=c(1,1),mar=c(5,4,4,2)+0.1,oma=rep(0,4))
+	
 }
 smart_histDiffHist = function(MAT,MAIN = NULL){
 	num_vars = ncol(MAT)
+	
+	oldpar = par(no.readonly = TRUE)
 	
 	if( is.null(MAIN) ){
 		oma = rep(0,4)
@@ -251,7 +279,10 @@ smart_histDiffHist = function(MAT,MAIN = NULL){
 		oma = c(0,0,2,0)
 	}
 	
-	par(mfrow=c(num_vars,num_vars),mar=c(4,4,1,0.5),oma=oma)
+	par(mfrow = c(num_vars,num_vars),
+		mar = c(4,4,1,0.5),oma = oma)
+	on.exit(par(oldpar))
+	
 	for(ii in seq(num_vars)){
 	for(jj in seq(num_vars)){
 		if(ii <= jj){
@@ -264,10 +295,9 @@ smart_histDiffHist = function(MAT,MAIN = NULL){
 		} else {
 			plot(0,0,type="n",axes=FALSE,xlab="",ylab="")
 		}
-	}
-	}
+	}}
+	
 	if( !is.null(MAIN) ) mtext(MAIN,outer=TRUE,cex=1.2)
-	par(mfrow=c(1,1),mar=c(5,4,4,2)+0.1,oma=rep(0,4))
 	
 }
 
@@ -282,14 +312,17 @@ smart_histDiffHist = function(MAT,MAIN = NULL){
 #' @export
 smart_boxplot = function(MAT,mar_down = 8,srt = 45,...){
 	
+	oldpar = par(no.readonly = TRUE)
+	
 	par(mar = c(mar_down,4,2,2) + 0.1)
+	on.exit(par(oldpar))
+	
 	boxplot(MAT,xaxt = "n",col = "deepskyblue",...)
 	axis(1,labels = FALSE,tick = FALSE)
 	labels = colnames(MAT)
 	text(x = seq_along(labels),
 		y = par("usr")[3] - (par("usr")[4] - par("usr")[3])/30,
 		srt = srt,adj = 1,labels = labels,cex = 0.8,xpd = TRUE)
-	par(mar = c(5,4,4,2) + 0.1)
 	
 }
 smart_barplot = function(VEC,cex = 0.7,srt = 35,...){
@@ -306,6 +339,8 @@ smart_histCAT = function(DATA,VARS,OUT,main_lab = "",
 		DATA = res; VARS = c("CELLTYPE"); OUT = "PVAL"
 		FUNC = function(xx){ mean(xx <= 0.05) }
 	}
+	
+	oldpar = par(no.readonly = TRUE)
 	
 	uDATA = unique(DATA[,VARS,drop=FALSE]); uDATA
 	keepVARS = c()
@@ -324,7 +359,9 @@ smart_histCAT = function(DATA,VARS,OUT,main_lab = "",
 	num_rows = ceiling(num_vars / num_cols)
 	num_dat = nrow(DATA)
 	
-	par(mfrow = c(num_rows,num_cols),mar = c(4,4,1,0.5))
+	par(mfrow = c(num_rows,num_cols),
+		mar = c(4,4,1,0.5))
+	on.exit(par(oldpar))
 	for(ii in seq(nrow(uDATA))){
 		# ii = 1
 		idx = rep(TRUE,num_dat); label = ""
@@ -338,7 +375,6 @@ smart_histCAT = function(DATA,VARS,OUT,main_lab = "",
 		}
 		smart_hist(DATA[idx,OUT],main = label,...)
 	}
-	par(mfrow = c(1,1),mar = c(5,4,4,2)+0.1)
 	
 }
 make_qqplot_pvalue = function(pp,trans = FALSE,...){
@@ -413,6 +449,8 @@ smart_convCOLOR = function(MAT,max_cats = 5,overwrite = FALSE){
 smart_image = function(orig_mat,border = NULL,axes = FALSE,
 	GRID = NULL,xaxs = "i",yaxs = "i",resMAR = FALSE,...){
 	
+	oldpar = par(no.readonly = TRUE)
+	
 	# Set GRID parameters
 	if( is.null(GRID) ){
 		GRID = list(GRID = FALSE)
@@ -433,6 +471,8 @@ smart_image = function(orig_mat,border = NULL,axes = FALSE,
 		} else {
 			par(mar = border)
 		}
+		on.exit(par(oldpar))
+		
 		# Orienting the matrix to how its organized
 		if( length(dim(orig_mat)) == 2 ){
 			image_mat = t(orig_mat[rev(seq(nrow(orig_mat))),,drop=FALSE])
@@ -481,8 +521,6 @@ smart_image = function(orig_mat,border = NULL,axes = FALSE,
 		smart_image(numeric_mat,col=mat_colors)
 	}
 	
-	if( resMAR ) par(mar = c(5,4,4,2) + 0.1)
-	
 }
 
 #' @title smart_heatmap
@@ -521,6 +559,8 @@ smart_heatmap = function(MAT = NULL,DIST = FALSE,main = "",
 		
 	}
 	
+	oldpar = par(no.readonly = TRUE)
+	
 	if( is.null(MAT) ) 		stop("Specify a matrix for MAT")
 	if( is.null(width) ){
 		if( is.null(rowData) ){
@@ -554,7 +594,6 @@ smart_heatmap = function(MAT = NULL,DIST = FALSE,main = "",
 	mm
 	layout(mm,widths = width,heights = height)
 	# layout.show(max(mm))
-	# par(mar = rep(0,4))
 	
 	if( DIST ) clustRC = rep(TRUE,2)
 	
@@ -574,6 +613,7 @@ smart_heatmap = function(MAT = NULL,DIST = FALSE,main = "",
 		lab_col = h_col$labels[h_col$order]
 		
 		par(mar = c(mar,0,0,0))
+		on.exit(par(oldpar))
 		
 		if( is.null(nodePar_col) )
 			nodePar_col = list(lab.cex = 1,pch = rep(NA,2))
@@ -588,6 +628,8 @@ smart_heatmap = function(MAT = NULL,DIST = FALSE,main = "",
 	} else {
 		
 		par(mar = c(0,0,0,0))
+		on.exit(par(oldpar))
+		
 		plot(0,0,xlim = c(0,1),ylim = c(0,1),
 			xlab = "",ylab = "",
 			type = "n",axes = FALSE,xaxs = "i")
@@ -626,6 +668,7 @@ smart_heatmap = function(MAT = NULL,DIST = FALSE,main = "",
 		lab_row = h_row$labels[h_row$order]
 		
 		par(mar = c(0,0,0,mar))
+		on.exit(par(oldpar))
 		
 		if( is.null(nodePar_row) )
 			nodePar_row = list(lab.cex = 1,pch = c(NA,NA))
@@ -640,6 +683,8 @@ smart_heatmap = function(MAT = NULL,DIST = FALSE,main = "",
 	} else {
 		
 		par(mar = rep(0,4))
+		on.exit(par(oldpar))
+		
 		plot(0,0,xlim = c(0,1),ylim = c(0,1),
 			type = "n",axes = FALSE,yaxs = "i")
 		nr = nrow(MAT)
@@ -664,6 +709,8 @@ smart_heatmap = function(MAT = NULL,DIST = FALSE,main = "",
 	
 	# heatmap
 	par(mar = rep(0,4))
+	on.exit(par(oldpar))
+	
 	ncols = min(length(unique(c(MAT))),5e1)
 	if( is.null(vec_cols) ){
 		vec_cols = colorpanel(n = ncols,
@@ -678,6 +725,8 @@ smart_heatmap = function(MAT = NULL,DIST = FALSE,main = "",
 	
 	# Key/legend
 	par(mar = c(5,1,1,1))
+	on.exit(par(oldpar))
+	
 	rr_mat = range(MAT2); rr_mat
 	if( make_key && rr_mat[1] != rr_mat[2] ){
 		rr_bar = seq(rr_mat[1],rr_mat[2],length.out = num_cols); # rr_bar
@@ -695,26 +744,39 @@ smart_heatmap = function(MAT = NULL,DIST = FALSE,main = "",
 		ncnt = length(vec_cnts); ncnt
 		barplot(rep(max(vec_cnts),n_bar),col = vec_cols,
 			border = NA,space = 0,axes = FALSE)
+		
 		par(lwd = 2)
+		on.exit(par(oldpar))
+		
 		barplot(vec_cnts,border = "cyan",col = NA,space = 0,
-			axes = FALSE,add = TRUE); par(lwd = 1)
+			axes = FALSE,add = TRUE)
+		
+		par(lwd = 1)
+		on.exit(par(oldpar))
+		
 		rr_lab = smart_SN(seq(rr_mat[1],rr_mat[2],
 			length.out = 10),digits = 1); # rr_lab
 		axis(1,at = seq(1,n_bar,length.out = length(rr_lab)) - 1/2,
 			labels = rr_lab,las = 2,cex.axis = 0.75)
 	} else {
 		par(mar = rep(0,4))
+		on.exit(par(oldpar))
+		
 		plot(0,0,type = "n",axes = FALSE)
 	}
 	
 	# Main/Title
 	par(mar = rep(0,4))
+	on.exit(par(oldpar))
+	
 	plot(0,0,xlim = c(0,1),ylim = c(0,1),type = "n",axes = FALSE)
 	text(0.5,0.5,labels = main,cex = cex.main)
 	
 	# Row Data
 	if( !is.null(rowData) ){
 		par(mar = rep(0,4))
+		on.exit(par(oldpar))
+		
 		# Convert columns to character
 		rdat = smart_convCOLOR(MAT = rowData$dat[lab_row,rowData$vars,drop = FALSE])
 		# class(rdat); head(rdat)
@@ -722,6 +784,8 @@ smart_heatmap = function(MAT = NULL,DIST = FALSE,main = "",
 		
 		# Row labels
 		par(mar = rep(0,4))
+		on.exit(par(oldpar))
+		
 		plot(0,1,type = "n",xlim = c(0,1),ylim = c(0,1),
 			xaxs = "i",yaxs = "i",axes = FALSE)
 		nvars = length(rowData$vars)
@@ -732,6 +796,8 @@ smart_heatmap = function(MAT = NULL,DIST = FALSE,main = "",
 	# Col Data
 	if( !is.null(colData) ){
 		par(mar = rep(0,4))
+		on.exit(par(oldpar))
+		
 		# Convert columns to character
 		cdat = smart_convCOLOR(MAT = colData$dat[lab_col,colData$vars,drop = FALSE])
 		# class(cdat); head(cdat)
@@ -739,15 +805,14 @@ smart_heatmap = function(MAT = NULL,DIST = FALSE,main = "",
 		
 		# Row labels
 		par(mar = rep(0,4))
+		on.exit(par(oldpar))
+		
 		plot(0,1,type = "n",xlim = c(0,1),ylim = c(0,1),
 			xaxs = "i",yaxs = "i",axes = FALSE)
 		nvars = length(colData$vars)
 		text(x = rep(0.75,nvars),y = rev(seq(1,2*nvars,2))/(2*nvars),
 			labels = colData$vars,adj = 0.5,srt = 0)
 	}
-	
-	# Reset layout
-	par(mfrow = c(1,1),mar = c(5,4,4,2) + 0.1)
 	
 	return(MAT2)
 	
