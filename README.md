@@ -22,11 +22,13 @@ Copy/paste the following code to install R package dependencies and **smarter**.
 req_packs = c("usethis","rmarkdown","Rcpp",
 	"RcppArmadillo","devtools","BiocManager",
 	"smarter")
-all_packs = as.character(installed.packages()[,1])
-rerun = 0
 
 for(pack in req_packs){
-	if( pack %in% all_packs ){
+	
+	chk_pack = tryCatch(find.package(pack),
+		error = function(ee){NULL})
+	
+	if( !is.null(chk_pack) ){
 		library(package = pack,character.only = TRUE)
 		next
 	}
@@ -34,7 +36,7 @@ for(pack in req_packs){
 	bb = NULL
 	
 	if( pack %in% "smarter" ){
-		bb = tryCatch(devtools::install_github("pllittle/smarter",
+		bb = tryCatch(install_github("pllittle/smarter",
 			dependencies = TRUE),
 			error = function(ee){"error"})
 	} else {
@@ -45,11 +47,8 @@ for(pack in req_packs){
 	
 	if( !is.null(bb) && bb == "error" )
 		stop(sprintf("Error for package = %s",pack))
-	rerun = 1
-
+	
 }
-
-if( rerun == 1 ) stop("Re-run above code")
 
 ```
 
