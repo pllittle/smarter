@@ -3,6 +3,8 @@
 # ----------
 
 #' @title smart_merge
+#' @description Merges two data.frames assuming
+#'	they have at least one shared column name
 #' @param x A data.frame
 #' @param y A data.frame
 #' @param mess Default to \code{FALSE}.
@@ -16,6 +18,8 @@
 #' smart_merge(aa,bb,all.y = TRUE)
 #' smart_merge(aa,bb,all = TRUE)
 #'
+#' @return A merged data.frame
+#'
 #' @export
 smart_merge = function(x,y,mess = FALSE,...){
 	if( mess ){
@@ -27,12 +31,16 @@ smart_merge = function(x,y,mess = FALSE,...){
 }
 
 #' @title smart_table
+#' @description Should elements passed into \code{table()}
+#'	contain \code{NA} or \code{NaN}, we want to see them 
+#'	by default.
 #' @param ... arguments passed to table
 #' @examples
 #'
 #' aa = c(1,1,2,2,2,3,NA)
 #' table(aa)
 #' smart_table(aa)
+#' @return Return a table
 #'
 #' @export
 smart_table = function(...){
@@ -40,7 +48,11 @@ smart_table = function(...){
 }
 
 #' @title smart_RT
+#' @description Calls \code{read.table()} but sets
+#'	argument \code{stringsAsFactors = FALSE} to prevent
+#'	treating character columns as factors.
 #' @param ... arguments passed to read.table
+#' @return Return is identical to \code{read.table()}
 #' @export
 smart_RT = function(...){
 	read.table(...,stringsAsFactors = FALSE)
