@@ -59,27 +59,32 @@ smart_RT = function(...){
 }
 
 #' @title smart_WF
+#' @description Calls \code{write.table()} setting
+#'	parameters \code{row.names} and \code{quote} 
+#'	to \code{FALSE}.
 #' @param ... arguments passed to write.table
+#' @return Return is identical to \code{write.table()}
 #' @export
 smart_WT = function(...){
 	write.table(...,row.names = FALSE,quote = FALSE)
 }
 
 #' @title smart_df
+#' @description Construct data.frame with \code{data.frame()}
+#'	but sets \code{stringsAsFactors} to \code{FALSE}.
 #' @param ... arguments passed to data.frame
+#' @return A data.frame
 #' @export
 smart_df = function(...){
 	data.frame(...,stringsAsFactors = FALSE)
 }
 
 #' @title smart_mkdir
+#' @description Create directory if it does not exist
 #' @param input_dir A full path name for 
 #'	a directory to create
 #' @export
 smart_mkdir = function(input_dir){
-	if(FALSE){
-		input_dir = "C:/Users/Admin/Desktop/blah/blah/blah"
-	}
 	
 	if( !file.exists(input_dir) || !dir.exists(input_dir) )
 		dir.create(path = input_dir,recursive = TRUE)
@@ -87,8 +92,11 @@ smart_mkdir = function(input_dir){
 }
 
 #' @title make_dummy
+#' @description Construct a dummy-coded matrix 
+#'	for a single variable
 #' @param x A numeric or character vector
 #'	to convert to a dummy matrix
+#' @return A binary indicator matrix of ones and zeros
 #' @export
 make_dummy = function(x){
 	len_x = length(x)
@@ -112,25 +120,35 @@ make_dummy = function(x){
 			fact_matrix[ii,pos] = 1
 	}
 	
-	fact_matrix
+	return(fact_matrix)
+	
 }
 
 #' @title collapse_var
+#' @description Collapse a subset of values within
+#'	a vector into a new value
 #' @param ORIG_VAR The input vector
 #' @param ORIG_VALUES A subset of values from
 #'	the input vector to be collapsed
 #' @param NEW_VALUE The new value to replace
 #'	\code{ORIG_VALUES} in \code{ORIG_VAR}
+#' @return A character or numeric vector
 #' @export
 collapse_var = function(ORIG_VAR,ORIG_VALUES,NEW_VALUE){
+	
 	ORIG_VAR[which(ORIG_VAR %in% ORIG_VALUES)] = NEW_VALUE
-	ORIG_VAR
+	
+	return(ORIG_VAR)
+	
 }
 
 #' @title name_change
+#' @description Substitute a column name of a matrix 
+#'	or data.frame with a new name
 #' @param DATA A matrix or data.frame
 #' @param ORIG_NAME A single character column name to alter
 #' @param NEW_NAME A single character to replace \code{ORIG_NAME}
+#' @return An updated data.frame
 #' @export
 name_change = function(DATA,ORIG_NAME,NEW_NAME){
 	
@@ -155,26 +173,30 @@ name_change = function(DATA,ORIG_NAME,NEW_NAME){
 #' @param digits A positive integer for 
 #'	number of digits to include in notation
 #' @export
-smart_SN = function(x,digits=2){
+smart_SN = function(x,digits = 2){
 	# For scientific notation
 	formatC(x,format = "e",digits = digits)
 }
 
 #' @title smart_digits
+#' @description Round numeric values to specific
 #' @param x A numeric vector formatted
 #'	to have consistently rounded values
 #' @param digits A positive integer
 #'	to regulate the number of digits to
 #'	round to
+#' @return Character version of rounded numeric value
 #' @export
 smart_digits = function(x,digits=2){
 	sprintf(paste0("%.",digits,"f"),round(x,digits))
 }
 
 #' @title smart_rmcols
+#' @description Drops columns from a matrix or data.frame.
 #' @param OBJ A matrix or data.frame
 #' @param rm_names A string vector of colnames 
 #'	to remove
+#' @return A matrix or data.frame
 #' @export
 smart_rmcols = function(OBJ,rm_names){
 	rm_names = intersect(rm_names,colnames(OBJ))
@@ -186,19 +208,26 @@ smart_rmcols = function(OBJ,rm_names){
 }
 
 #' @title smart_reqNames
+#' @description Checks if required column names are
+#'	contained in the matrix or data.frame.
 #' @param DATA A matrix or data.frame
 #' @param REQ A string vector of colnames
 #'	required to be contained in DATA
+#' @return Errors out if required columns are missing.
 #' @export
 smart_reqNames = function(DATA,REQ){
-	if( !all(REQ %in% colnames(DATA)) ){
-		miss_names = REQ[!(REQ %in% colnames(DATA))]
-		stop(sprintf("Missing columns: %s",
-			paste(miss_names,collapse = ",")))
-	}
+	
+	if( all(REQ %in% colnames(DATA)) )
+		return(NULL)
+	
+	miss_names = REQ[!(REQ %in% colnames(DATA))]
+	stop(sprintf("Missing columns: %s",
+		paste(miss_names,collapse = ",")))
+	
 }
 
 #' @title smart_progress
+#' @description Print progress of a for loop
 #' @param ii A positive integer to track a 
 #'	loop's progress
 #' @param nn A positive integer for the 
@@ -210,6 +239,7 @@ smart_reqNames = function(DATA,REQ){
 #'	a line of printed "." and track the loop's 
 #'	progress
 #' @param ... arguments passed to cat
+#' @return Nothing returned
 #' @export
 smart_progress = function(ii,nn,string = ".",iter = 5,iter2 = 2e2,...){
 	
@@ -222,6 +252,8 @@ smart_progress = function(ii,nn,string = ".",iter = 5,iter2 = 2e2,...){
 }
 
 #' @title smart_dots
+#' @description Prints a series of dots every
+#'	few seconds
 #' @param wait A number of seconds to wait before printing "."
 #' @param num_dots The number of dots to print before
 #'	printing a message
@@ -250,6 +282,8 @@ smart_dots = function(wait = 300,num_dots = 30){
 #'	bin labels through binned intervals
 #' @param binNUM Boolean set to TRUE to map bins to
 #'	numbers. Otherwise, bins are characterized by intervals
+#' @return A character or integer vector of 
+#'	collapsed/binned values
 #' @export
 bin_cont_var = function(VAR,NUM_GROUPS,
 	ROUND = 3,binNUM = FALSE){
@@ -295,9 +329,12 @@ bin_cont_var = function(VAR,NUM_GROUPS,
 }
 
 #' @title smart_names
+#' @description Sets row/column names to matrix or data.frame
 #' @param MAT A matrix
 #' @param ROW A vector of length equal to \code{nrow(MAT)}
 #' @param COL A vector of length equal to \code{ncol(MAT)}
+#' @return Outputs a matrix or data.frame depending on 
+#'	input object class
 #' @export
 smart_names = function(MAT,ROW = NULL,COL = NULL){
 	colnames(MAT) = seq(ncol(MAT))
