@@ -9,13 +9,17 @@ smart_table(...)
 \arguments{
 \item{...}{arguments passed to table}
 }
+\value{
+Return a table
+}
 \description{
-smart_table
+Should elements passed into \code{table()}
+contain \code{NA} or \code{NaN}, we want to see them 
+by default.
 }
 \examples{
 
 aa = c(1,1,2,2,2,3,NA)
 table(aa)
 smart_table(aa)
-
 }

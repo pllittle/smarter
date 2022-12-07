@@ -9,6 +9,10 @@ smart_df(...)
 \arguments{
 \item{...}{arguments passed to data.frame}
 }
+\value{
+A data.frame
+}
 \description{
-smart_df
+Construct data.frame with \code{data.frame()}
+but sets \code{stringsAsFactors} to \code{FALSE}.
 }

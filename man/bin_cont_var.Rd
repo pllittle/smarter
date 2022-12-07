@@ -18,6 +18,10 @@ bin labels through binned intervals}
 \item{binNUM}{Boolean set to TRUE to map bins to
 numbers. Otherwise, bins are characterized by intervals}
 }
+\value{
+A character or integer vector of 
+collapsed/binned values
+}
 \description{
 Transform numeric vector into
 discrete bins

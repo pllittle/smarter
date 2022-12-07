@@ -24,6 +24,9 @@ progress}
 
 \item{...}{arguments passed to cat}
 }
+\value{
+Nothing returned
+}
 \description{
-smart_progress
+Print progress of a for loop
 }

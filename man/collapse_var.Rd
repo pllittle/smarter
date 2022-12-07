@@ -15,6 +15,10 @@ the input vector to be collapsed}
 \item{NEW_VALUE}{The new value to replace
 \code{ORIG_VALUES} in \code{ORIG_VAR}}
 }
+\value{
+A character or numeric vector
+}
 \description{
-collapse_var
+Collapse a subset of values within
+a vector into a new value
 }

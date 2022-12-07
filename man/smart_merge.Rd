@@ -16,8 +16,12 @@ Otherwise a message is printed.}
 
 \item{...}{arguments passed to merge}
 }
+\value{
+A merged data.frame
+}
 \description{
-smart_merge
+Merges two data.frames assuming
+they have at least one shared column name
 }
 \examples{
 

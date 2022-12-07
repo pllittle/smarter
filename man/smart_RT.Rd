@@ -9,6 +9,11 @@ smart_RT(...)
 \arguments{
 \item{...}{arguments passed to read.table}
 }
+\value{
+Return is identical to \code{read.table()}
+}
 \description{
-smart_RT
+Calls \code{read.table()} but sets
+argument \code{stringsAsFactors = FALSE} to prevent
+treating character columns as factors.
 }

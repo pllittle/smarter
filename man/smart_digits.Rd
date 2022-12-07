@@ -14,6 +14,9 @@ to have consistently rounded values}
 to regulate the number of digits to
 round to}
 }
+\value{
+Character version of rounded numeric value
+}
 \description{
-smart_digits
+Round numeric values to specific
 }

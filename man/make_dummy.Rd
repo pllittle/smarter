@@ -10,6 +10,10 @@ make_dummy(x)
 \item{x}{A numeric or character vector
 to convert to a dummy matrix}
 }
+\value{
+A binary indicator matrix of ones and zeros
+}
 \description{
-make_dummy
+Construct a dummy-coded matrix 
+for a single variable
 }

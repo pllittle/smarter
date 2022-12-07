@@ -12,6 +12,9 @@ smart_rmcols(OBJ, rm_names)
 \item{rm_names}{A string vector of colnames 
 to remove}
 }
+\value{
+A matrix or data.frame
+}
 \description{
-smart_rmcols
+Drops columns from a matrix or data.frame.
 }

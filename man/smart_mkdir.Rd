@@ -11,5 +11,5 @@ smart_mkdir(input_dir)
 a directory to create}
 }
 \description{
-smart_mkdir
+Create directory if it does not exist
 }

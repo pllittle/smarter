@@ -13,5 +13,6 @@ smart_dots(wait = 300, num_dots = 30)
 printing a message}
 }
 \description{
-smart_dots
+Prints a series of dots every
+few seconds
 }

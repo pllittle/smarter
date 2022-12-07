@@ -9,6 +9,11 @@ smart_WT(...)
 \arguments{
 \item{...}{arguments passed to write.table}
 }
+\value{
+Return is identical to \code{write.table()}
+}
 \description{
-smart_WF
+Calls \code{write.table()} setting
+parameters \code{row.names} and \code{quote} 
+to \code{FALSE}.
 }

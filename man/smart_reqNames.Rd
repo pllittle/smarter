@@ -12,6 +12,10 @@ smart_reqNames(DATA, REQ)
 \item{REQ}{A string vector of colnames
 required to be contained in DATA}
 }
+\value{
+Errors out if required columns are missing.
+}
 \description{
-smart_reqNames
+Checks if required column names are
+contained in the matrix or data.frame.
 }

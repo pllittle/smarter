@@ -13,6 +13,10 @@ name_change(DATA, ORIG_NAME, NEW_NAME)
 
 \item{NEW_NAME}{A single character to replace \code{ORIG_NAME}}
 }
+\value{
+An updated data.frame
+}
 \description{
-name_change
+Substitute a column name of a matrix 
+or data.frame with a new name
 }

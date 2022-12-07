@@ -15,7 +15,7 @@ if( !is.null(chk_pack) ){
 	q("no")
 }
 
-req_packs = c("Rcpp","devtools","usethis")
+req_packs = c("usethis","Rcpp","devtools")
 for(tmp_pack in req_packs){
 	
 	chk_pack2 = tryCatch(find.package(tmp_pack),

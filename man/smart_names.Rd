@@ -13,6 +13,10 @@ smart_names(MAT, ROW = NULL, COL = NULL)
 
 \item{COL}{A vector of length equal to \code{ncol(MAT)}}
 }
+\value{
+Outputs a matrix or data.frame depending on 
+input object class
+}
 \description{
-smart_names
+Sets row/column names to matrix or data.frame
 }
