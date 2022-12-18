@@ -38,11 +38,6 @@ for(tmp_pack in req_packs){
 		source(file.path(pack_dir,"R/inst_Rtools.R"))
 		cat("Rtools is installed!\n")
 		
-	} else if( tmp_pack == "BiocManager" ){
-		install.packages("BiocManager")
-		BiocManager::install()
-		next
-		
 	} else {
 		bb = tryCatch(install.packages(tmp_pack),
 			error = function(ee){NA})
