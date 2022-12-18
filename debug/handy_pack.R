@@ -1,3 +1,5 @@
+
+
 #' @title smart_pack
 #' @description Check if package installed or 
 #'	install package

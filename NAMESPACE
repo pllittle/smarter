@@ -2,6 +2,7 @@
 
 export(bin_cont_var)
 export(calc_JK)
+export(chkInst_PACK)
 export(chk_threads)
 export(collapse_var)
 export(logSumExp)

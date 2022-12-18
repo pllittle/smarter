@@ -2,6 +2,23 @@
 # Package Functions
 # ----------
 
+#' @title chkInst_PACK
+#' @description Check package is installed
+#' @param PACK A character string for a package name
+#' @return Boolean for \code{TRUE} if package installed
+#'	and \code{FALSE} if package is not installed or located
+#' @export
+chkInst_PACK = function(PACK){
+	
+	chk_pack = tryCatch(find.package(PACK),
+		error = function(ee){NULL})
+	chk_pack
+	
+	output = ifelse(is.null(chk_pack),FALSE,TRUE)
+	return(output)
+	
+}
+
 #' @title smart_pack_versions
 #' @description Return all associated package versions
 #' @param pack A string for the package name

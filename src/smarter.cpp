@@ -9,9 +9,7 @@
 // smartr Functions
 // --------------------
 
-// [[Rcpp::interfaces(r,cpp)]]
-
-// [[Rcpp::export(Rcpp_logSumExp)]]
+// [[Rcpp::export]]
 double Rcpp_logSumExp(const arma::vec& log_x){
 	if( log_x.n_elem == 1 ){
 		return log_x.at(0);
@@ -22,13 +20,13 @@ double Rcpp_logSumExp(const arma::vec& log_x){
 	}
 }
 
-// [[Rcpp::export(Rcpp_round)]]
+// [[Rcpp::export]]
 void Rcpp_round(arma::vec& vv,const arma::uword& digits){
 	double scale = std::pow(10,digits);
 	vv = arma::round(vv * scale) / scale;
 }
 
-// [[Rcpp::export(Rcpp_chk_threads)]]
+// [[Rcpp::export]]
 void Rcpp_chk_threads(const arma::uword& NN,
 	const int& ncores = 1){
 	

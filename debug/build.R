@@ -1,22 +1,28 @@
 # Steps to create/check/install package from directory
+
 rm(list = ls())
-bb = strsplit(getwd(),"/")[[1]]
-pack_dir = paste(bb[-length(bb)],collapse = "/")
+pack_dir = getwd()
+pack_dir = strsplit(pack_dir,"/")[[1]]
+pack_dir = pack_dir[-length(pack_dir)]
+pack_dir = paste(pack_dir,collapse = "/")
+pack_dir
+
 pack = strsplit(pack_dir,"/")[[1]]
 pack = pack[length(pack)]
 pack
 
 chk_pack = tryCatch(find.package(pack),
-	error = function(ee){NULL})
-chk_pack
-
+	error = function(ee){NULL}); chk_pack
 if( !is.null(chk_pack) ){
 	remove.packages(pack)
 	q("no")
 }
 
-req_packs = c("usethis","Rcpp","devtools")
+req_packs = c("pkgbuild","usethis",
+	"installr","Rtools","Rcpp","RcppArmadillo",
+	"devtools")
 for(tmp_pack in req_packs){
+	# tmp_pack = req_packs[8]; tmp_pack
 	
 	chk_pack2 = tryCatch(find.package(tmp_pack),
 		error = function(ee){NULL})
@@ -27,15 +33,50 @@ for(tmp_pack in req_packs){
 		next
 	}
 	
-	stop(sprintf("Install package = %s",tmp_pack))
+	if( tmp_pack == "Rtools" ){
+		
+		chk_rtools = pkgbuild::find_rtools()
+		chk_rtools = chk_rtools && pkgbuild::check_rtools()
+		chk_rtools = chk_rtools && pkgbuild::has_rtools()
+		rtools_dir = tryCatch(pkgbuild::rtools_path(),
+			error = function(ee){""})
+		rtools_dir = gsub("\\\\","/",rtools_dir); # rtools_dir
+		chk_rtools = chk_rtools && dir.exists(rtools_dir)
+		chk_rtools = chk_rtools && grepl("rtools",Sys.getenv("PATH"))
+		chk_rtools
+		
+		if( chk_rtools ) next
+		
+		bb = tryCatch(installr::install.Rtools(check = TRUE,
+			check_r_update = FALSE),error = function(ee){NULL})
+		if( !is.null(bb) ) next
+		stop("Some error in Rtools")
+		
+	} else if( tmp_pack == "BiocManager" ){
+		install.packages("BiocManager")
+		BiocManager::install()
+		next
+		
+	} else {
+		bb = tryCatch(install.packages(tmp_pack),
+			error = function(ee){NA})
+		if( !is.null(bb) && is.na(bb) ) 
+			stop(sprintf("Error with %s",tmp_pack))
+		
+	}
 	
 }
+
+Sys.getenv("_R_CHECK_SYSTEM_CLOCK_")
+Sys.setenv("_R_CHECK_SYSTEM_CLOCK_" = 0)
 
 compileAttributes(pkgdir = pack_dir)
 document(pkg = pack_dir)
 use_gpl3_license()
-check(pkg = pack_dir,
-	manual = TRUE,cran = TRUE,
+
+devtools::check(pkg = pack_dir,
+	manual = !TRUE,cran = TRUE,
+	vignettes = FALSE,
 	error_on = "note")
 
 # Install locally

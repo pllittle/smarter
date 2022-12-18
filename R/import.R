@@ -11,7 +11,7 @@
 #'	hist lines mtext par text layout image
 #' @importFrom stats cor density var quantile qnorm
 #'	hclust dist as.dist as.dendrogram
-#' @importFrom gplots colorpanel 
+#' @importFrom gplots colorpanel
 #' @importFrom Rcpp sourceCpp compileAttributes
 #' @useDynLib smarter
 NULL

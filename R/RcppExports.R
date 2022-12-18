@@ -13,7 +13,3 @@ Rcpp_chk_threads <- function(NN, ncores = 1L) {
     invisible(.Call('_smarter_Rcpp_chk_threads', PACKAGE = 'smarter', NN, ncores))
 }
 
-# Register entry points for exported C++ functions
-methods::setLoadAction(function(ns) {
-    .Call('_smarter_RcppExport_registerCCallable', PACKAGE = 'smarter')
-})
