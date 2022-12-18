@@ -18,9 +18,8 @@ if( !is.null(chk_pack) ){
 	q("no")
 }
 
-req_packs = c("pkgbuild","usethis",
-	"installr","Rtools","Rcpp","RcppArmadillo",
-	"devtools")
+req_packs = c("usethis","Rtools",
+	"Rcpp","RcppArmadillo","devtools")
 for(tmp_pack in req_packs){
 	# tmp_pack = req_packs[8]; tmp_pack
 	
@@ -29,28 +28,15 @@ for(tmp_pack in req_packs){
 	chk_pack2
 
 	if( !is.null(chk_pack2) ){
-		library(tmp_pack,character.only = TRUE)
+		suppressPackageStartupMessages(library(tmp_pack,
+			character.only = TRUE))
 		next
 	}
 	
 	if( tmp_pack == "Rtools" ){
 		
-		chk_rtools = pkgbuild::find_rtools()
-		chk_rtools = chk_rtools && pkgbuild::check_rtools()
-		chk_rtools = chk_rtools && pkgbuild::has_rtools()
-		rtools_dir = tryCatch(pkgbuild::rtools_path(),
-			error = function(ee){""})
-		rtools_dir = gsub("\\\\","/",rtools_dir); # rtools_dir
-		chk_rtools = chk_rtools && dir.exists(rtools_dir)
-		chk_rtools = chk_rtools && grepl("rtools",Sys.getenv("PATH"))
-		chk_rtools
-		
-		if( chk_rtools ) next
-		
-		bb = tryCatch(installr::install.Rtools(check = TRUE,
-			check_r_update = FALSE),error = function(ee){NULL})
-		if( !is.null(bb) ) next
-		stop("Some error in Rtools")
+		source(file.path(pack_dir,"R/inst_Rtools.R"))
+		cat("Rtools is installed!\n")
 		
 	} else if( tmp_pack == "BiocManager" ){
 		install.packages("BiocManager")

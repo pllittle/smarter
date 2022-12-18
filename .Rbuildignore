@@ -1,3 +1,4 @@
 ^LICENSE\.md$
 ^README\.md$
 debug
+R/inst_.*\.R
