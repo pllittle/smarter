@@ -33,7 +33,7 @@ for(pack in req_packs){
 		
 		if( chk_rtools ) next
 		
-		bb = tryCatch(installr::install.Rtools(check = TRUE,
+		bb = tryCatch(installr::install.Rtools(check = FALSE,
 			check_r_update = FALSE),error = function(ee){NULL})
 		if( !is.null(bb) ) next
 		stop("Some error in Rtools")
