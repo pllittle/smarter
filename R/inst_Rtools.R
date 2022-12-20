@@ -16,7 +16,7 @@ for(pack in req_packs){
 		next
 	}
 	
-	if( pack == "Rtools" && Sys.info("sysname") == "Windows" ){
+	if( pack == "Rtools" && .Platform$OS.type == "windows" ){
 		
 		chk_rtools = pkgbuild::find_rtools()
 		chk_rtools = chk_rtools && pkgbuild::check_rtools()
@@ -24,11 +24,11 @@ for(pack in req_packs){
 		rtools_dir = tryCatch(pkgbuild::rtools_path(),
 			error = function(ee){""})
 		rtools_dir = gsub("\\\\","/",rtools_dir); rtools_dir
-		chk_rtools = chk_rtools && dir.exists(rtools_dir)
+		chk_rtools = chk_rtools && all(dir.exists(rtools_dir))
 		chk_rtools = chk_rtools && grepl("rtools",Sys.getenv("PATH"))
 		gpp_dir = Sys.which("g++")
-		chk_rtools = chk_rtools && file.exists(gpp_dir)
-		chk_rtools = chk_rtools && grepl("rtools",gpp_dir)
+		chk_rtools = chk_rtools && all(file.exists(gpp_dir))
+		chk_rtools = chk_rtools && all(grepl("rtools",gpp_dir))
 		chk_rtools
 		
 		if( chk_rtools ) next
