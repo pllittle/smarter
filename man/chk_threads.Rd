@@ -12,6 +12,9 @@ to loop over}
 
 \item{ncores}{A positive integer for number of threads}
 }
+\value{
+An integer for number of threads.
+}
 \description{
 chk_threads
 }

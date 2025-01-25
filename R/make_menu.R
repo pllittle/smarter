@@ -2,10 +2,10 @@
 # Menu making
 # ----------
 print_noInput = function(){
-	cat("No input, try again ...\n")
+	message("No input, try again ...\n")
 }
 print_notOpt = function(){
-	cat("Not an option, try again ...\n")
+	message("Not an option, try again ...\n")
 }
 
 #' @title make_menu
@@ -17,12 +17,13 @@ print_notOpt = function(){
 #'	value
 #' @param INDENT A character string for the amount 
 #'	of indentation from the left margin
+#' @return Character string of user's response
 #' @export
 make_menu = function(PROMPT,OPTS,INDENT = "   "){
 	
 	if( missing(PROMPT) ){
 		PROMPT = readline("Enter a prompt: ")
-		cat(sprintf("PROMPT = %s\n",PROMPT))
+		message(sprintf("PROMPT = %s\n",PROMPT))
 	}
 	
 	if( missing(OPTS) ){
@@ -53,7 +54,7 @@ make_menu = function(PROMPT,OPTS,INDENT = "   "){
 			if( length(OPTS) > 0 ){
 				cmd = sprintf("OPTS = (%s)\n",
 					paste(sprintf("'%s'",OPTS),collapse = ", "))
-				cat(cmd)
+				message(cmd)
 			}
 			
 		}

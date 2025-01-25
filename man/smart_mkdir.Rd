@@ -10,6 +10,9 @@ smart_mkdir(input_dir)
 \item{input_dir}{A full path name for 
 a directory to create}
 }
+\value{
+No return value
+}
 \description{
 Create directory if it does not exist
 }

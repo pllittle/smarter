@@ -46,6 +46,9 @@ the table for notes}
 
 \item{...}{arguments passed to cat}
 }
+\value{
+No return value
+}
 \description{
 print_latex_table
 }

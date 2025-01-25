@@ -16,6 +16,10 @@ rows correspond to each leave one out estimate}
 \item{alpha}{A numeric value for constructing
 (1 - alpha) * 100\% confidence intervals}
 }
+\value{
+A list of numeric jackknife summary mean 
+and confidence intervals
+}
 \description{
 calc_JK
 }

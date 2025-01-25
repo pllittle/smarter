@@ -25,7 +25,7 @@ progress}
 \item{...}{arguments passed to cat}
 }
 \value{
-Nothing returned
+No return value.
 }
 \description{
 Print progress of a for loop

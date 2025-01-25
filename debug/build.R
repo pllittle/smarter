@@ -1,15 +1,10 @@
 # Steps to create/check/install package from directory
 
 rm(list = ls())
-pack_dir = getwd()
-pack_dir = strsplit(pack_dir,"/")[[1]]
-pack_dir = pack_dir[-length(pack_dir)]
-pack_dir = paste(pack_dir,collapse = "/")
-pack_dir
-
-pack = strsplit(pack_dir,"/")[[1]]
-pack = pack[length(pack)]
-pack
+git_dir = sprintf("%s/../..",getwd()); git_dir
+pack = "smarter"
+pack_dir = file.path(git_dir,pack)
+if( !file.exists(pack_dir) ) q("no")
 
 chk_pack = tryCatch(find.package(pack),
 	error = function(ee){NULL}); chk_pack
@@ -18,7 +13,7 @@ if( !is.null(chk_pack) ){
 	q("no")
 }
 
-req_packs = c("usethis","Rtools",
+req_packs = c(#"usethis",#"Rtools",
 	"Rcpp","RcppArmadillo","devtools")
 for(tmp_pack in req_packs){
 	# tmp_pack = req_packs[8]; tmp_pack
@@ -48,32 +43,45 @@ for(tmp_pack in req_packs){
 	
 }
 
-Sys.getenv("_R_CHECK_SYSTEM_CLOCK_")
-Sys.setenv("_R_CHECK_SYSTEM_CLOCK_" = 0)
+Sys.setenv('_R_CHECK_SYSTEM_CLOCK_' = 0)
 
 compileAttributes(pkgdir = pack_dir)
 document(pkg = pack_dir)
 use_gpl3_license()
+check_pandoc = pandoc_available(); check_pandoc
+vign_dir = file.path(pack_dir,"vignettes")
+chk_vign = length(list.files(vign_dir,pattern = "Rmd")) > 0
+override_vign = !FALSE
+make_vign = check_pandoc && chk_vign && override_vign; make_vign
 
-devtools::check(pkg = pack_dir,
-	manual = !TRUE,cran = TRUE,
-	vignettes = FALSE,
-	error_on = "note")
+# Check: takes some time
+perf_chk = TRUE
+if( perf_chk ){
+	chk = tryCatch(check(pkg = pack_dir,
+		manual = TRUE,cran = TRUE,
+		error_on = "note",
+		vignettes = make_vign),
+		error = function(ee){NULL},
+		warning = function(ww){NULL})
+} else {
+	chk = TRUE
+}
+chk
 
-# Install locally
-install(pack_dir)
+# Install
+if( !is.null(chk) ){
+	chk = tryCatch(install(pack_dir,
+		build_vignettes = make_vign,
+		upgrade = FALSE),
+		error = function(ee){NULL},
+		warning = function(ww){NULL})
+}
 
-# Build package for CRAN
-bb = readLines(file.path(pack_dir,"DESCRIPTION"))
-vers = strsplit(bb[grepl("Version",bb)]," ")[[1]][2]; vers
-user_dir = gsub("\\\\","/",Sys.getenv("USERPROFILE"))
-gz_fn = file.path(user_dir,sprintf("Desktop/%s_%s.tar.gz",
-	pack,vers)); gz_fn
-build(pkg = pack_dir,path = gz_fn)
-
-# Delete built package
-if( file.exists(gz_fn) )
-	unlink(gz_fn)
+# Build
+if( !is.null(chk) ){
+	desk_dir = sprintf("%s/../",git_dir)
+	devtools::build(pkg = pack_dir,path = desk_dir)
+}
 
 
 ###

@@ -14,7 +14,7 @@ name_change(DATA, ORIG_NAME, NEW_NAME)
 \item{NEW_NAME}{A single character to replace \code{ORIG_NAME}}
 }
 \value{
-An updated data.frame
+An updated data.frame with renamed fields
 }
 \description{
 Substitute a column name of a matrix 

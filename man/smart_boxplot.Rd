@@ -18,6 +18,9 @@ angle of x-axis labels}
 
 \item{...}{arguments passed to boxplot}
 }
+\value{
+No return value.
+}
 \description{
 smart_boxplot
 }

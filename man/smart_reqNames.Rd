@@ -13,7 +13,7 @@ smart_reqNames(DATA, REQ)
 required to be contained in DATA}
 }
 \value{
-Errors out if required columns are missing.
+No return value.
 }
 \description{
 Checks if required column names are

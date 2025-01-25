@@ -54,6 +54,7 @@ clean_repeats = function(VEC){
 #' @param latex_comment Add a latex comment above 
 #'	the table for notes
 #' @param ... arguments passed to cat
+#' @return No return value
 #' @export
 print_latex_table = function(DATA,repeat_VARS = NULL,
 	my_align = NULL,add_table = FALSE,fontsize = NULL,
@@ -76,50 +77,50 @@ print_latex_table = function(DATA,repeat_VARS = NULL,
 	
 	prep_DATA = DATA
 	
-	cat("\n",...)
+	message("\n",...)
 	
 	if( !is.null(latex_comment) ){
-		cat(sprintf("%% %s\n",latex_comment),...)
+		message(sprintf("%% %s\n",latex_comment),...)
 	}
 	
 	if( add_table ){
-		cat(paste0("\\begin{table}[!htbp] \n\\centering\n"),...)
+		message(paste0("\\begin{table}[!htbp] \n\\centering\n"),...)
 		if( !is.null(fontsize) )
-			cat(paste0("\\",fontsize,"\n"),...)
+			message(paste0("\\",fontsize,"\n"),...)
 		else
-			cat(paste0("\\normalsize\n"),...)
+			message(paste0("\\normalsize\n"),...)
 		if( !is.null(caption) ){
 			caption = gsub("\n","",caption)
-			cat(paste0("\\caption{",caption,"}\n"),...)
+			message(paste0("\\caption{",caption,"}\n"),...)
 		}
-		if( !is.null(label) ) cat(paste0("\\label{tab:",label,"}\n"),...)
+		if( !is.null(label) ) message(paste0("\\label{tab:",label,"}\n"),...)
 	}
 	
 	if( is.null(my_align) ){
-		cat(paste0("\\begin{tabular}{l",
+		message(paste0("\\begin{tabular}{l",
 			paste(rep("c",ncol(prep_DATA)-1),collapse=""),"}\n"),...)
 	} else {
-		cat(paste0("\\begin{tabular}{",my_align,"}\n"),...)
+		message(paste0("\\begin{tabular}{",my_align,"}\n"),...)
 	}
 	
-	cat("\\toprule\n",...)
-	cat(paste0(paste(sapply(orig_names,format_latex),collapse=" & ")," \\\\\n"),...)
+	message("\\toprule\n",...)
+	message(paste0(paste(sapply(orig_names,format_latex),collapse=" & ")," \\\\\n"),...)
 	
 	if( is.null(midrule1) ){
-		cat("\\midrule\n",...)
+		message("\\midrule\n",...)
 	} else {
-		cat(paste0(midrule1,"\n"),...)
+		message(paste0(midrule1,"\n"),...)
 	}
 	apply(prep_DATA,1,function(x)
-		cat(paste0(paste(sapply(x,format_latex),
+		message(paste0(paste(sapply(x,format_latex),
 			collapse=" & ")," \\\\\n"),...))
-	cat("\\bottomrule\n\\end{tabular}\n",...)
+	message("\\bottomrule\n\\end{tabular}\n",...)
 
 	if( add_table ){
-		cat(paste0("\\end{table}\n"),...)
+		message(paste0("\\end{table}\n"),...)
 	}
 
-	cat("\n",...)
+	message("\n",...)
 	
 }
 

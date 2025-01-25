@@ -10,6 +10,8 @@
 #'	rows correspond to each leave one out estimate
 #' @param alpha A numeric value for constructing
 #'	(1 - alpha) * 100\% confidence intervals
+#' @return A list of numeric jackknife summary mean 
+#'	and confidence intervals
 #' @export
 calc_JK = function(EST,LOO_EST,alpha = 0.05){
 	

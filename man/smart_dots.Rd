@@ -12,6 +12,9 @@ smart_dots(wait = 300, num_dots = 30)
 \item{num_dots}{The number of dots to print before
 printing a message}
 }
+\value{
+No return value.
+}
 \description{
 Prints a series of dots every
 few seconds

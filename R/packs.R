@@ -27,6 +27,7 @@ chkInst_PACK = function(PACK){
 #'	options "aCRAN" and "cCRAN". "cCRAN" refers
 #'	to contributed packages. "aCRAN" refers
 #'	to archived packages.
+#' @return A data.frame of available R packages
 #' @export
 smart_pack_versions = function(pack,repo = "CRAN"){
 	

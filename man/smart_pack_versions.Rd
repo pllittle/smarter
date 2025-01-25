@@ -15,6 +15,9 @@ options "aCRAN" and "cCRAN". "cCRAN" refers
 to contributed packages. "aCRAN" refers
 to archived packages.}
 }
+\value{
+A data.frame of available R packages
+}
 \description{
 Return all associated package versions
 }

@@ -48,7 +48,7 @@ for(pack in req_packs){
 	
 }
 
-# cat("Rtools is installed!\n")
+# message("Rtools is installed!\n")
 
 ###
 

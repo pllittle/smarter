@@ -46,6 +46,9 @@ plot points}
 
 \item{...}{arguments passed to plot}
 }
+\value{
+No return value.
+}
 \description{
 smart_compMATs
 }

@@ -16,6 +16,9 @@ value}
 \item{INDENT}{A character string for the amount 
 of indentation from the left margin}
 }
+\value{
+Character string of user's response
+}
 \description{
 Constructs an interactive menu
  for the user

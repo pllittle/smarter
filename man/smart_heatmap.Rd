@@ -54,6 +54,9 @@ matrix. Otherwise, function can perform row/column clustering}
 
 \item{vec_cols}{NULL}
 }
+\value{
+No return value.
+}
 \description{
 smart_heatmap
 }

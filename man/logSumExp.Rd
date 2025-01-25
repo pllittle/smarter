@@ -9,6 +9,9 @@ logSumExp(x)
 \arguments{
 \item{x}{A numeric vector}
 }
+\value{
+A numeric vector
+}
 \description{
 Calculates the log(sum(exp(x)))
 in Rcpp

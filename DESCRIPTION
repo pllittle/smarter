@@ -1,14 +1,12 @@
 Package: smarter
-Title: A Collection of Modified R Functions to Make Basic 
-	Coding More Convenient
+Title: A Collection of Modified R Functions to Make Basic Coding More Convenient
 Version: 1.0.0
-Author: Paul Little
-Maintainer: Paul Little <plittle@fredhutch.org>
-Description: A collection of modified R functions 
-	to aid in file manipulation, data exploration, wraggling,
-	optimization, and object manipulation. Other functions aid in 
-	convenient data visualization, loop progression, 
-	software packaging, and installation.
+Date: 2025-01-25
+Authors@R: 
+	person("Paul","Little",
+		email = "pllittle321@gmail.com",
+		role = c("aut","cre"))
+Description: A collection of recycled and modified R functions to aid in file manipulation, data exploration, wrangling, optimization, and object manipulation. Other functions aid in convenient data visualization, loop progression, software packaging, and installation.
 Encoding: UTF-8
 RoxygenNote: 7.2.3
 Imports: devtools, RCurl, Rcpp, gplots,

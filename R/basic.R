@@ -24,7 +24,7 @@
 smart_merge = function(x,y,mess = FALSE,...){
 	if( mess ){
 		intersect_vars = paste(intersect(names(x),names(y)),collapse=", ")
-		cat(paste0("Merging dataframes on variables = { ",intersect_vars," }\n"))
+		message(paste0("Merging dataframes on variables = { ",intersect_vars," }\n"))
 	}
 	
 	merge(x,y,by = intersect(names(x),names(y)),...)
@@ -83,6 +83,7 @@ smart_df = function(...){
 #' @description Create directory if it does not exist
 #' @param input_dir A full path name for 
 #'	a directory to create
+#' @return No return value
 #' @export
 smart_mkdir = function(input_dir){
 	
@@ -148,7 +149,7 @@ collapse_var = function(ORIG_VAR,ORIG_VALUES,NEW_VALUE){
 #' @param DATA A matrix or data.frame
 #' @param ORIG_NAME A single character column name to alter
 #' @param NEW_NAME A single character to replace \code{ORIG_NAME}
-#' @return An updated data.frame
+#' @return An updated data.frame with renamed fields
 #' @export
 name_change = function(DATA,ORIG_NAME,NEW_NAME){
 	
@@ -172,6 +173,7 @@ name_change = function(DATA,ORIG_NAME,NEW_NAME){
 #'	to scientific notation
 #' @param digits A positive integer for 
 #'	number of digits to include in notation
+#' @return A character vector
 #' @export
 smart_SN = function(x,digits = 2){
 	# For scientific notation
@@ -213,7 +215,7 @@ smart_rmcols = function(OBJ,rm_names){
 #' @param DATA A matrix or data.frame
 #' @param REQ A string vector of colnames
 #'	required to be contained in DATA
-#' @return Errors out if required columns are missing.
+#' @return No return value.
 #' @export
 smart_reqNames = function(DATA,REQ){
 	
@@ -239,15 +241,15 @@ smart_reqNames = function(DATA,REQ){
 #'	a line of printed "." and track the loop's 
 #'	progress
 #' @param ... arguments passed to cat
-#' @return Nothing returned
+#' @return No return value.
 #' @export
 smart_progress = function(ii,nn,string = ".",iter = 5,iter2 = 2e2,...){
 	
 	if(ii %% iter == 0)
-		cat(string,...)
+		message(string,...)
 	
 	if(ii %% iter2 == 0 || ii == nn)
-		cat(sprintf("%s out of %s\n",ii,nn),...)
+		message(sprintf("%s out of %s\n",ii,nn),...)
 	
 }
 
@@ -257,15 +259,16 @@ smart_progress = function(ii,nn,string = ".",iter = 5,iter2 = 2e2,...){
 #' @param wait A number of seconds to wait before printing "."
 #' @param num_dots The number of dots to print before
 #'	printing a message
+#' @return No return value.
 #' @export
 smart_dots = function(wait = 300,num_dots = 30){
 	cnt = 1
 	while(TRUE){
-		cat(".")
+		message(".")
 		num_min = wait * num_dots / 60
 		
 		if( cnt %% num_dots == 0 )
-			cat(sprintf("%s minutes passed\n",num_min))
+			message(sprintf("%s minutes passed\n",num_min))
 		
 		Sys.sleep(time = wait)
 		cnt = cnt + 1

@@ -20,6 +20,9 @@ to overlay kernel density}
 
 \item{...}{arguments passed to hist}
 }
+\value{
+No return value.
+}
 \description{
 smart_hist
 }

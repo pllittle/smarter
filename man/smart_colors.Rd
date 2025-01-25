@@ -16,6 +16,9 @@ than or equal to one}
 \item{overwrite}{Boolean If nn = 2, setting to 
 FALSE will force colors to be white or black}
 }
+\value{
+No return value.
+}
 \description{
 smart_colors
 }

@@ -13,6 +13,9 @@ to scientific notation}
 \item{digits}{A positive integer for 
 number of digits to include in notation}
 }
+\value{
+A character vector
+}
 \description{
 Convert numeric values into 
 scientific notation

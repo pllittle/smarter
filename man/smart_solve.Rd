@@ -9,6 +9,9 @@ smart_solve(mm)
 \arguments{
 \item{mm}{A square numeric matrix}
 }
+\value{
+A square numeric matrix.
+}
 \description{
 smart_solve
 }
