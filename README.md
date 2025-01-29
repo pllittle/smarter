@@ -42,6 +42,7 @@ install.packages("smarter")
 
 <details>
 <summary>Install development version</summary>
+
 Copy/paste the following code to install R package dependencies and **smarter**.
 
 ```R
