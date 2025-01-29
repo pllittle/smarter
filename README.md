@@ -11,10 +11,37 @@
 [![](https://img.shields.io/github/last-commit/pllittle/smarter.svg)](https://github.com/pllittle/smarter/commits/master)
 <!-- badges: end -->
 
-A R package with modified R functions for data exploration and other features.
+A R package with modified and recycled R functions for data exploration and other features.
+
+## Table of Contents
+
+* [News](#news)
+* [Future Ideas](#future-ideas)
+* [Installation](#installation)
+
+## News
+
+* 2025-01: smarter v1.0.0 published to [CRAN](https://cran.r-project.org/package=smarter)
+
+## Future ideas
+
+* Vignettes/Demos
 
 ## Installation
 
+<details>
+<summary>Install from CRAN</summary>
+
+Copy/paste the following code to install R package from CRAN.
+
+```R
+install.packages("smarter")
+```
+
+</details>
+
+<details>
+<summary>Install development version</summary>
 Copy/paste the following code to install R package dependencies and **smarter**.
 
 ```R
@@ -52,4 +79,5 @@ for(pack in req_packs){
 
 ```
 
-## Future ideas
+</details>
+
