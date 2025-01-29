@@ -2,10 +2,10 @@
 # Menu making
 # ----------
 print_noInput = function(){
-	message("No input, try again ...\n")
+	message("No input, try again ...\n",appendLF = FALSE)
 }
 print_notOpt = function(){
-	message("Not an option, try again ...\n")
+	message("Not an option, try again ...\n",appendLF = FALSE)
 }
 
 #' @title make_menu
@@ -23,7 +23,7 @@ make_menu = function(PROMPT,OPTS,INDENT = "   "){
 	
 	if( missing(PROMPT) ){
 		PROMPT = readline("Enter a prompt: ")
-		message(sprintf("PROMPT = %s\n",PROMPT))
+		message(sprintf("PROMPT = %s\n",PROMPT),appendLF = FALSE)
 	}
 	
 	if( missing(OPTS) ){
@@ -54,7 +54,7 @@ make_menu = function(PROMPT,OPTS,INDENT = "   "){
 			if( length(OPTS) > 0 ){
 				cmd = sprintf("OPTS = (%s)\n",
 					paste(sprintf("'%s'",OPTS),collapse = ", "))
-				message(cmd)
+				message(cmd,appendLF = FALSE)
 			}
 			
 		}

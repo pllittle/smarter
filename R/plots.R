@@ -25,12 +25,12 @@ smart_hist = function(x,freq = FALSE,
 	
 }
 show_png = function(){
-	message("# ----------\n")
-	message("# PNG Template\n")
-	message("# ----------\n")
-	message("png(file.path(...),units = \"px\",height = ,width = ,res = 250,type = \"cairo\",pointsize = 20)\n")
-	message("...\n")
-	message("dev.off()\n")
+	message("# ----------\n",appendLF = FALSE)
+	message("# PNG Template\n",appendLF = FALSE)
+	message("# ----------\n",appendLF = FALSE)
+	message("png(file.path(...),units = \"px\",height = ,width = ,res = 250,type = \"cairo\",pointsize = 20)\n",appendLF = FALSE)
+	message("...\n",appendLF = FALSE)
+	message("dev.off()\n",appendLF = FALSE)
 }
 
 #' @title smart_compMATs
@@ -67,10 +67,10 @@ smart_compMATs = function(MAT1,MAT2 = NULL,which_range = NULL,
 	
 	if( !is.null(MAT2) ){
 		# Compare Matrices
-		if( show_corr ) message("Pearson Correlation Matrix\n")
+		if( show_corr ) message("Pearson Correlation Matrix\n",appendLF = FALSE)
 		tmp_cor1 = cor(MAT1,MAT2,method = "pearson")
 		if( show_corr ) print(tmp_cor1)
-		if( show_corr ) message("Spearman Correlation Matrix\n")
+		if( show_corr ) message("Spearman Correlation Matrix\n",appendLF = FALSE)
 		tmp_cor2 = cor(MAT1,MAT2,method = "spearman")
 		if( show_corr ) print(tmp_cor2)
 		# Calculate Root Mean Square Error between true and estimated columns

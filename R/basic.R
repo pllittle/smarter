@@ -24,7 +24,7 @@
 smart_merge = function(x,y,mess = FALSE,...){
 	if( mess ){
 		intersect_vars = paste(intersect(names(x),names(y)),collapse=", ")
-		message(paste0("Merging dataframes on variables = { ",intersect_vars," }\n"))
+		message(paste0("Merging dataframes on variables = { ",intersect_vars," }\n"),appendLF = FALSE)
 	}
 	
 	merge(x,y,by = intersect(names(x),names(y)),...)
@@ -246,10 +246,10 @@ smart_reqNames = function(DATA,REQ){
 smart_progress = function(ii,nn,string = ".",iter = 5,iter2 = 2e2,...){
 	
 	if(ii %% iter == 0)
-		message(string,...)
+		message(string,appendLF = FALSE,...)
 	
 	if(ii %% iter2 == 0 || ii == nn)
-		message(sprintf("%s out of %s\n",ii,nn),...)
+		message(sprintf("%s out of %s\n",ii,nn),appendLF = FALSE,...)
 	
 }
 
@@ -264,11 +264,11 @@ smart_progress = function(ii,nn,string = ".",iter = 5,iter2 = 2e2,...){
 smart_dots = function(wait = 300,num_dots = 30){
 	cnt = 1
 	while(TRUE){
-		message(".")
+		message(".",appendLF = FALSE)
 		num_min = wait * num_dots / 60
 		
 		if( cnt %% num_dots == 0 )
-			message(sprintf("%s minutes passed\n",num_min))
+			message(sprintf("%s minutes passed\n",num_min),appendLF = FALSE)
 		
 		Sys.sleep(time = wait)
 		cnt = cnt + 1

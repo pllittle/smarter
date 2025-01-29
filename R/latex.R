@@ -77,50 +77,48 @@ print_latex_table = function(DATA,repeat_VARS = NULL,
 	
 	prep_DATA = DATA
 	
-	message("\n",...)
+	message("\n",appendLF = FALSE,...)
 	
 	if( !is.null(latex_comment) ){
-		message(sprintf("%% %s\n",latex_comment),...)
+		message(sprintf("%% %s\n",latex_comment),appendLF = FALSE,...)
 	}
 	
 	if( add_table ){
-		message(paste0("\\begin{table}[!htbp] \n\\centering\n"),...)
+		message(paste0("\\begin{table}[!htbp] \n\\centering\n"),appendLF = FALSE,...)
 		if( !is.null(fontsize) )
-			message(paste0("\\",fontsize,"\n"),...)
+			message(paste0("\\",fontsize,"\n"),appendLF = FALSE,...)
 		else
-			message(paste0("\\normalsize\n"),...)
+			message(paste0("\\normalsize\n"),appendLF = FALSE,...)
 		if( !is.null(caption) ){
 			caption = gsub("\n","",caption)
-			message(paste0("\\caption{",caption,"}\n"),...)
+			message(paste0("\\caption{",caption,"}\n"),appendLF = FALSE,...)
 		}
-		if( !is.null(label) ) message(paste0("\\label{tab:",label,"}\n"),...)
+		if( !is.null(label) ) message(paste0("\\label{tab:",label,"}\n"),appendLF = FALSE,...)
 	}
 	
 	if( is.null(my_align) ){
-		message(paste0("\\begin{tabular}{l",
-			paste(rep("c",ncol(prep_DATA)-1),collapse=""),"}\n"),...)
+		message(paste0("\\begin{tabular}{l",paste(rep("c",ncol(prep_DATA)-1),collapse=""),"}\n"),appendLF = FALSE,...)
 	} else {
-		message(paste0("\\begin{tabular}{",my_align,"}\n"),...)
+		message(paste0("\\begin{tabular}{",my_align,"}\n"),appendLF = FALSE,...)
 	}
 	
-	message("\\toprule\n",...)
-	message(paste0(paste(sapply(orig_names,format_latex),collapse=" & ")," \\\\\n"),...)
+	message("\\toprule\n",appendLF = FALSE,...)
+	message(paste0(paste(sapply(orig_names,format_latex),collapse=" & ")," \\\\\n"),appendLF = FALSE,...)
 	
 	if( is.null(midrule1) ){
-		message("\\midrule\n",...)
+		message("\\midrule\n",appendLF = FALSE,...)
 	} else {
-		message(paste0(midrule1,"\n"),...)
+		message(paste0(midrule1,"\n"),appendLF = FALSE,...)
 	}
 	apply(prep_DATA,1,function(x)
-		message(paste0(paste(sapply(x,format_latex),
-			collapse=" & ")," \\\\\n"),...))
-	message("\\bottomrule\n\\end{tabular}\n",...)
+		message(paste0(paste(sapply(x,format_latex),collapse=" & ")," \\\\\n"),appendLF = FALSE,...))
+	message("\\bottomrule\n\\end{tabular}\n",appendLF = FALSE,...)
 
 	if( add_table ){
-		message(paste0("\\end{table}\n"),...)
+		message(paste0("\\end{table}\n"),appendLF = FALSE,...)
 	}
 
-	message("\n",...)
+	message("\n",appendLF = FALSE,...)
 	
 }
 
