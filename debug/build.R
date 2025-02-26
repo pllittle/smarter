@@ -13,7 +13,7 @@ if( !is.null(chk_pack) ){
 	q("no")
 }
 
-req_packs = c(#"usethis",#"Rtools",
+req_packs = c("usethis",#"Rtools",
 	"Rcpp","RcppArmadillo","devtools")
 for(tmp_pack in req_packs){
 	# tmp_pack = req_packs[8]; tmp_pack

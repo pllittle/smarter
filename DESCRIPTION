@@ -1,7 +1,7 @@
 Package: smarter
 Title: A Collection of Modified R Functions to Make Basic Coding More Convenient
-Version: 1.0.0
-Date: 2025-01-25
+Version: 1.0.1
+Date: 2025-02-25
 Authors@R: 
 	person("Paul","Little",
 		email = "pllittle321@gmail.com",
